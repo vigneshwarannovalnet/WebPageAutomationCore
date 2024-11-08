@@ -1,4 +1,4 @@
-package org.example;
+
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +20,7 @@ public class Test {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         WebElement element = wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//h1"))));
         System.out.println(element.getText());
+        System.out.println("Nizam");
         driver.quit();
     }
 }
