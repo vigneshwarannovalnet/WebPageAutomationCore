@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   schedule:
-    - cron: "47 13 * * *"  # Runs daily at 1:47 PM UTC (7:17 PM IST)
+    - cron: "30 0 * * *"  # Runs daily at 12:30 AM UTC (6:00 AM IST)
 
 
 jobs:
