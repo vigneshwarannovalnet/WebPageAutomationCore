@@ -1,13 +1,10 @@
-name: Java CI with Maven
-
 on:
   schedule:
-    - cron: "7 15 * * *"  # Runs every day at 3:07 PM UTC
+    - cron: "40 9 * * *"  # 9:40 AM UTC, equivalent to 3:10 PM IST
   workflow_dispatch:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
