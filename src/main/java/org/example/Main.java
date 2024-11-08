@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void test() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless");
         ChromeDriver driver = new ChromeDriver(options);
