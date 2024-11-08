@@ -29,7 +29,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
-                    <!-- Automatically picks up test classes in src/test/java ending with *Test.java -->
+                    <includes>
+                        <include>src/test/java/Test.java</include> <!-- Specify the full path to the test class -->
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
