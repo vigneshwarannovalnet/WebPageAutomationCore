@@ -19,6 +19,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -67,6 +68,7 @@ public class BaseTest extends Test {
         }
     }
 
+    @BeforeTest
     public ChromeDriver getDriver(){
 
         if(driver==null) {
