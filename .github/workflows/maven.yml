@@ -2,7 +2,8 @@ name: Java CI with Maven
 
 on:
   schedule:
-    - cron: "30 0 * * *"  # Runs daily at 12:30 AM UTC (6:00 AM IST)
+    - cron: "30 0 * * *"  # 6:00 AM IST
+  workflow_dispatch:
 
 
 jobs:
