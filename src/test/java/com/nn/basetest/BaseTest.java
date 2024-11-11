@@ -18,6 +18,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
@@ -49,7 +50,7 @@ public class BaseTest extends Test {
     private AtomicInteger count = new AtomicInteger(0);
 
     private static File xl = new File(System.getProperty("user.dir"),"/src/test/resources/HomePage.xlsx");
-    @BeforeSuite
+    @BeforeClass
     public void createDriver(){
         System.out.println("Inside createdriver method staritng point");
         ChromeOptions options = new ChromeOptions();
