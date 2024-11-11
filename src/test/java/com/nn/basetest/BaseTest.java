@@ -50,11 +50,13 @@ public class BaseTest extends Test {
     private static File xl = new File(System.getProperty("user.dir"),"/src/test/resources/HomePage.xlsx");
     @BeforeSuite
     public void createDriver(){
+        System.out.println("Inside createdriver method staritng point");
         ChromeOptions options = new ChromeOptions();
       options.addArguments("--headless");
          driver = new ChromeDriver(options);
          wait = new WebDriverWait(driver,Duration.ofSeconds(30));
         assert driver != null : "Driver initialization failed!";
+        System.out.println("Inside createdriver method ending point");
         // driver.manage().window().maximize();
     }
 
