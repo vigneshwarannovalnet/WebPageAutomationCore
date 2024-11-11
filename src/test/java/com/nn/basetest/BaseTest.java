@@ -61,12 +61,12 @@ public class BaseTest extends Test {
         // driver.manage().window().maximize();
     }
 
-    @AfterSuite
+   /* @AfterSuite
     public void quitDriver(){
         if(driver!=null){
             driver.quit();;
         }
-    }
+    }*/
 
 
     public ChromeDriver getDriver(){
