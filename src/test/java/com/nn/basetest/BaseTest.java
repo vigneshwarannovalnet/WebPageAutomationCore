@@ -68,6 +68,10 @@ public class BaseTest extends Test {
     }
 
     public ChromeDriver getDriver(){
+
+        if(driver==null) {
+        throw new IllegalStateException("Driver is not initialized!");
+        }
         return driver;
     }
 
