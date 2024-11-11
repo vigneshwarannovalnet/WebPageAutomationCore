@@ -68,13 +68,9 @@ public class BaseTest extends Test {
         }
     }
 
-    @BeforeTest
-    public ChromeDriver getDriver(){
 
-        if(driver==null) {
-        throw new IllegalStateException("Driver is not initialized!");
-        }
-        return driver;
+    public ChromeDriver getDriver(){
+        return this.driver;
     }
 
     public void checkAllLinks() throws IOException, GeneralSecurityException {
