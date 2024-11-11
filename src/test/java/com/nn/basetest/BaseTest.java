@@ -2,7 +2,6 @@ package com.nn.basetest;
 
 
 import com.nn.testcase.homepage.Test;
-import io.restassured.RestAssured;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
