@@ -11,6 +11,7 @@ public class HomePageTest extends BaseTest {
 
     @Test(priority = 1,dataProvider = "siteMap_Url",description = "sdsdsdssd")
     public void brokenLink(String input) throws GeneralSecurityException, IOException {
+        System.out.println("Navigating to URL: " + input);
         getDriver().get(input);
         waitForTitleContains(("XML Sitemap"));
         checkAllLinks();

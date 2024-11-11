@@ -54,6 +54,7 @@ public class BaseTest extends Test {
       options.addArguments("--headless");
          driver = new ChromeDriver(options);
          wait = new WebDriverWait(driver,Duration.ofSeconds(30));
+        assert driver != null : "Driver initialization failed!";
         // driver.manage().window().maximize();
     }
 
