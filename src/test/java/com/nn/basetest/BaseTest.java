@@ -15,12 +15,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.manager.SeleniumManagerOutput;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -62,12 +60,13 @@ public class BaseTest extends Test {
         // driver.manage().window().maximize();
     }
 
-   /* @AfterSuite
+    @AfterClass
     public void quitDriver(){
         if(driver!=null){
-            driver.quit();;
+            driver.quit();
+            System.out.println("Driver was quitting successfully");
         }
-    }*/
+    }
 
 
     public ChromeDriver getDriver(){
@@ -75,7 +74,6 @@ public class BaseTest extends Test {
     }
 
     public void checkAllLinks() throws IOException, GeneralSecurityException {
-
 
         List<WebElement> allLinks = driver.findElements(By.tagName("a"));
         for (WebElement link : allLinks) {
@@ -238,4 +236,7 @@ public class BaseTest extends Test {
 
         return novalnetLinks;
     }
+
+
+
 }
