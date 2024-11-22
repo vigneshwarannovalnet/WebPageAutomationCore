@@ -40,7 +40,7 @@ public class BaseTest  {
 
     private static File DE_xl = new File(System.getProperty("user.dir"),"/src/test/resources/DE_HomePage.xlsx");
     private static File EN_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
-    @BeforeMethod
+    @BeforeClass
     public void createDriver(){
         try {
             ChromeOptions options = new ChromeOptions();
