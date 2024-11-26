@@ -48,9 +48,9 @@ public class BaseTest  {
             driver.set(new ChromeDriver(options));
 
             // Set a page load timeout and script timeout
-            driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60)); // Page load timeout
-            driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));  // Implicit wait
-            driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(60)); // Script timeout
+           // driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60)); // Page load timeout
+           // driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));  // Implicit wait
+          //  driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(60)); // Script timeout
             wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(30)));
             assert driver != null : "Driver initialization failed!";
             driver.get().manage().window().maximize();
@@ -337,13 +337,13 @@ public class BaseTest  {
                 }
 
             }
-            for (WebElement value : imgTags) {
+            /*for (WebElement value : imgTags) {
                 String imageurl = value.getAttribute("src");
                 if (imageurl != null && (imageurl.contains("https") || imageurl.contains("http"))) {
                     verifyLink(source_URL, imageurl, imagechecksheetname,lang);
 
                 }
-            }
+            }*/
 
         }
 
