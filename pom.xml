@@ -69,60 +69,15 @@
                     <version>3.0.0-M5</version>
                     <configuration>
                         <testFailureIgnore>false</testFailureIgnore>
-                        <suiteXmlFiles>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
-                        </suiteXmlFiles>
+
                         <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
 
 
 
                         <!--Add attachments to Allure Report-->
-                        <argLine>
-                            -Dtestng.dtd.http=true -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.19/aspectjweaver-1.9.19.jar"
-                        </argLine>
-                        <systemPropertyVariables>
-                            <allure.results.directory>target/allure-results</allure.results.directory>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <BROWSER>${BROWSER}</BROWSER>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <HEADLESS>${HEADLESS}</HEADLESS>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <URL>${URL}</URL>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <USERNAME>admin</USERNAME>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <PASSWORD>wordpress</PASSWORD>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <CALLBACK_URL>${CALLBACK_URL}</CALLBACK_URL>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <URL_FRONTEND>${URL_FRONTEND}</URL_FRONTEND>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <EXPLICIT_TIMEOUT>15</EXPLICIT_TIMEOUT>
-                            <IMPLICIT_TIMEOUT>10</IMPLICIT_TIMEOUT>
-                            <PAGE_LOAD_TIMEOUT>60</PAGE_LOAD_TIMEOUT>
-                            <SCREENSHOT_FAIL>yes</SCREENSHOT_FAIL>
-                            <SCREENSHOT_PASS>no</SCREENSHOT_PASS>
-                            <RECORD_VIDEO>no</RECORD_VIDEO>
-                            <REPORT_TITLE>Report|AutomationFramework|Selenium|Novalnet</REPORT_TITLE>
-                            <REPORT_EMAIL>nageshwaran_k@novalnetsolutions.com</REPORT_EMAIL>
-                            <SENT_REPORT_TO_USER_IN_EMAIL>no</SENT_REPORT_TO_USER_IN_EMAIL>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <NOVALNET_API_KEY>${NOVALNET_API_KEY}</NOVALNET_API_KEY>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <NOVALNET_ACCESSKEY>${NOVALNET_ACCESSKEY}</NOVALNET_ACCESSKEY>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <NOVALNET_TARIFF>${NOVALNET_TARIFF}</NOVALNET_TARIFF>
-                            <!--suppress UnresolvedMavenProperty -->
-                            <NOVALNET_SUBSCRIPTION_TARIFF>${NOVALNET_SUBSCRIPTION_TARIFF}</NOVALNET_SUBSCRIPTION_TARIFF>
-                        </systemPropertyVariables>
+
                     </configuration>
-
-
                 </plugin>
-
-
-
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
                     <version>3.0.2</version>
