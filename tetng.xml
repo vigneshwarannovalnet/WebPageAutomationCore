@@ -3,10 +3,6 @@
     <test name="HomePageTest">
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="brokenLink_de"></include>
-                        <include name="brokenLink_en"></include>
-                </methods>
             </class>
         </classes>
     </test>
