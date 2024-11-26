@@ -18,8 +18,5 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
-
     - name: Run Specific Test
       run: mvn -Dtest=com.nn.testcase.homepage.HomePageTest test
