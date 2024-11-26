@@ -45,7 +45,7 @@ public class BaseTest  {
         try {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            driver.set(new ChromeDriver());
+            driver.set(new ChromeDriver(options));
 
             // Set a page load timeout and script timeout
            // driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60)); // Page load timeout
