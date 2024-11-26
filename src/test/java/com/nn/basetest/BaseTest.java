@@ -96,7 +96,14 @@ public class BaseTest  {
     }
 
     private void verifyLink(String sourceUrl, String url ,String sheetname,String lang) throws IOException, GeneralSecurityException {
-        if(checked200UrlS.add(url)){
+
+        boolean result =false;
+        for(String successURLs :checked200UrlS){
+            result = successURLs.equals(url);
+            if (result==true)
+                break;
+        }
+        if(result!=true){
             int statusCode = 0;
             String statusMessage = null;
             int currentCount = count.incrementAndGet();
@@ -117,11 +124,15 @@ public class BaseTest  {
                 System.out.println("url: " + url + ", statusCode: " + statusCode + ", statusMessage: " + statusMessage + ", sourceUrl: " + sourceUrl);
                 if (statusCode == 200) {
                     System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
+                    if(checked200UrlS.add(url)){
                         if(lang.equals("DE")){
                             writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
                         }else {
                             writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                         }
+
+                    }
+
                 } else {
                     if(lang.equals("DE")){
                         writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
