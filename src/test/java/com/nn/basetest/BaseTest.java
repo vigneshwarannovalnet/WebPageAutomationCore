@@ -45,7 +45,7 @@ public class BaseTest  {
         try {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            driver.set(new ChromeDriver(options));
+            driver.set(new ChromeDriver());
 
             // Set a page load timeout and script timeout
            // driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60)); // Page load timeout
@@ -96,14 +96,7 @@ public class BaseTest  {
     }
 
     private void verifyLink(String sourceUrl, String url ,String sheetname,String lang) throws IOException, GeneralSecurityException {
-
-        boolean result =false;
-        for(String successURLs :checked200UrlS){
-            result = successURLs.equals(url);
-            if (result==true)
-                break;
-        }
-        if(result!=true){
+        if(checked200UrlS.add(url)){
             int statusCode = 0;
             String statusMessage = null;
             int currentCount = count.incrementAndGet();
@@ -124,15 +117,11 @@ public class BaseTest  {
                 System.out.println("url: " + url + ", statusCode: " + statusCode + ", statusMessage: " + statusMessage + ", sourceUrl: " + sourceUrl);
                 if (statusCode == 200) {
                     System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
-                    if(checked200UrlS.add(url)){
                         if(lang.equals("DE")){
                             writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
                         }else {
                             writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                         }
-
-                    }
-
                 } else {
                     if(lang.equals("DE")){
                         writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
@@ -327,8 +316,6 @@ public class BaseTest  {
     public void checkSublinks(String source_URL,String lang) throws IOException, GeneralSecurityException {
         driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
             List<WebElement> innerLinks = driver.get().findElements(By.tagName("a"));
-            waitForAllElementLocated(By.tagName("img"));
-            List<WebElement> imgTags = driver.get().findElements(By.tagName("img"));
             for (WebElement innerLink : innerLinks) {
                 String subUrl = innerLink.getAttribute("href");
                 if (subUrl != null && !subUrl.isEmpty()
@@ -337,14 +324,6 @@ public class BaseTest  {
                 }
 
             }
-            /*for (WebElement value : imgTags) {
-                String imageurl = value.getAttribute("src");
-                if (imageurl != null && (imageurl.contains("https") || imageurl.contains("http"))) {
-                    verifyLink(source_URL, imageurl, imagechecksheetname,lang);
-
-                }
-            }*/
-
         }
 
 
@@ -432,5 +411,27 @@ public class BaseTest  {
     public void openURL(String url){
        getDriver().get(url);
         System.out.println("Open URL: " + url);
+    }
+
+    public void verifyBrokenImages(String URL,String lang) throws GeneralSecurityException, IOException {
+        List<String> siteMap_inner_urls = getAllNovalnetLinks(URL);
+        for (String url:siteMap_inner_urls){
+            openURL(url);
+            System.out.println("Novalnet link" + url);
+            verifyBrokenImages_(url,lang);
+        }
+
+    }
+
+    public void verifyBrokenImages_(String source_URL,String lang) throws GeneralSecurityException, IOException {
+        waitForAllElementLocated(By.tagName("img"));
+        List<WebElement> imgTags = driver.get().findElements(By.tagName("img"));
+        for (WebElement value : imgTags) {
+            String imageurl = value.getAttribute("src");
+            if (imageurl != null && (imageurl.contains("https") || imageurl.contains("http"))) {
+                verifyLink(source_URL, imageurl, imagechecksheetname,lang);
+
+            }
+        }
     }
 }
