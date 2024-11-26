@@ -18,11 +18,12 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Clean Maven cache
-      run: rm -rf ~/.m2/repository/org/aspectj/aspectjweaver
+    - name: Clean aspectjweaver cache
+      run: rm -rf ~/.m2/repository/org/aspectj/aspectjweaver/1.9.19
 
-    - name: Ensure dependencies are available
+    - name: Resolve dependencies
       run: mvn dependency:resolve
 
-    - name: Run TestNG XML
+    - name: Run TestNG XML with update
       run: mvn clean test -DsuiteXmlFile=testng.xml -Dparallel=methods -DthreadCount=4 -U
+
