@@ -19,4 +19,4 @@ jobs:
         cache: maven
 
     - name: Run TestNG XML
-      run: mvn test -DsuiteXmlFile=testng.xml -Dparallel=methods -DthreadCount=4
+      run: mvn clean test -DsuiteXmlFile=testng.xml -Dparallel=methods -DthreadCount=4
