@@ -69,7 +69,10 @@
                     <version>3.0.0-M5</version>
                     <configuration>
                         <testFailureIgnore>false</testFailureIgnore>
-
+                        <suiteXmlFiles>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                        </suiteXmlFiles>
                         <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
 
 
