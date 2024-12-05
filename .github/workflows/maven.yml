@@ -19,4 +19,4 @@ jobs:
         cache: maven
 
     - name: Run Specific Test
-      run: mvn -Dtest=com.nn.testcase.homepage.HomePageTest test
+      run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
