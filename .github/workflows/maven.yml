@@ -3,20 +3,36 @@ name: Java CI with Maven
 on:
   schedule:
     - cron: "30 0 * * *"  # 6:00 AM IST
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual trigger of the workflow
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Checkout the code
     - uses: actions/checkout@v4
+
+    # Step 2: Set up JDK 11
     - name: Set up JDK 11
       uses: actions/setup-java@v4
       with:
         java-version: '11'
-        distribution: 'temurin'
-        cache: maven
+        distribution: 'temurin' # Temurin is the recommended OpenJDK distribution
+        cache: maven # Cache Maven dependencies
 
+    # Step 3: Add permissions to files (optional for debugging file permissions)
+    - name: Set write permissions
+      run: chmod -R u+w .
+
+    # Step 4: Run the specific Maven test
     - name: Run Specific Test
       run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
+
+    # Step 5: Upload the generated XLSX file (if it exists)
+    - name: Upload XLSX file
+      if: always() # Ensure this step runs even if tests fail
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: src/test/resources/DE_HomePage.xlsx # Corrected path to the XLSX file
