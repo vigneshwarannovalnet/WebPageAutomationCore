@@ -29,18 +29,20 @@ jobs:
     - name: Run Specific Test
       run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
 
-    # Step 5: Debug the file to ensure it was written
-    - name: Debug the XLSX file
+    # Step 5: Debug the DE and EN XLSX files to ensure they were written
+    - name: Debug the XLSX files
       run: |
-        echo "Checking if the file exists and is not empty"
+        echo "Checking if the DE file exists and is not empty"
         ls -lh src/test/resources/DE_HomePage.xlsx
-        # Optionally, if it's a text file, you can print part of it
-        # head -n 10 src/test/resources/DE_HomePage.xlsx # Only if the file is readable as text, to inspect data
+        echo "Checking if the EN file exists and is not empty"
+        ls -lh src/test/resources/EN_HomePage.xlsx
 
-    # Step 6: Upload the generated XLSX file (if it exists)
-    - name: Upload XLSX file
+    # Step 6: Upload the generated XLSX files (if they exist)
+    - name: Upload XLSX files
       if: always() # Ensure this step runs even if tests fail
       uses: actions/upload-artifact@v3
       with:
         name: test-results
-        path: src/test/resources/DE_HomePage.xlsx
+        path: |
+          src/test/resources/DE_HomePage.xlsx
+          src/test/resources/EN_HomePage.xlsx
