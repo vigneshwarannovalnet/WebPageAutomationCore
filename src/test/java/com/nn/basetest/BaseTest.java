@@ -225,14 +225,19 @@ public class BaseTest  {
                 }
             }
 
+            // Debug print to check if the data is correctly written
+            System.out.println("Data written to sheet: " + sheetName);
+
             // Write changes back to the file
             try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
                 workbook.write(outputStream);
             }
+
         } finally {
             lock.unlock(); // Ensure the lock is released
         }
     }
+
 
     public void writeDataToSheet_EN(String sheetName, List<Object> data, File filePath) throws IOException {
         lock.lock(); // Ensure thread safety
