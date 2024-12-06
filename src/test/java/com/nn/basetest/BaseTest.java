@@ -45,7 +45,7 @@ public class BaseTest  {
         try {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            driver.set(new ChromeDriver(options));
+            driver.set(new ChromeDriver());
 
             // Set a page load timeout and script timeout
            driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60)); // Page load timeout
@@ -420,8 +420,8 @@ public class BaseTest  {
     }
 
     public void openURL(String url){
-        wait.get().until(ExpectedConditions.urlToBe(url));
         getDriver().get(url);
+        wait.get().until(ExpectedConditions.urlToBe(url));
         System.out.println("Open URL: " + url);
     }
 
