@@ -429,6 +429,7 @@ public class BaseTest  {
     public void openURL(String url){
         getDriver().get(url);
         wait.get().until(ExpectedConditions.urlToBe(url));
+        System.out.println("Page source: " + driver.get().getPageSource());
         System.out.println("Open URL: " + url);
     }
 
