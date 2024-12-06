@@ -42,7 +42,7 @@ public class HomePageTest extends BaseTest {
     @Test
     public void test() throws IOException {
         System.out.println("File path is: " + DE_xl.getAbsolutePath());
-        writeDataToSheet_DE("nizam", new ArrayList<Object>(Arrays.asList("url", "statusCode", "statusMessage", "sourceUrl")), DE_xl);
+        writeDataToSheet_DE("anvar", new ArrayList<Object>(Arrays.asList("url", "statusCode", "statusMessage", "sourceUrl")), DE_xl);
 
     }
 
