@@ -51,7 +51,7 @@ public class BaseTest  {
            driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60)); // Page load timeout
             driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));  // Implicit wait
           driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(60)); // Script timeout
-            wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(30)));
+            wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(60)));
             assert driver != null : "Driver initialization failed!";
             driver.get().manage().window().maximize();
         }catch (Exception e){
@@ -420,7 +420,8 @@ public class BaseTest  {
     }
 
     public void openURL(String url){
-       getDriver().get(url);
+        wait.get().until(ExpectedConditions.urlToBe(url));
+        getDriver().get(url);
         System.out.println("Open URL: " + url);
     }
 
