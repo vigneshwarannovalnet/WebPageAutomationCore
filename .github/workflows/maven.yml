@@ -35,4 +35,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: test-results
-        path: path/to/xlsx-file.xlsx
+        path: src/test/resources/DE_HomePage.xlsx # Corrected path to the XLSX file
