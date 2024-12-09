@@ -39,11 +39,12 @@ public class BaseTest  {
     public String imagechecksheetname =LocalDate.now()+"_BROKENIMAGE";
     public String H1tagchecksheetname = LocalDate.now()+"H1TAGS";
 
-
+    public String imagealtchecksheetname = LocalDate.now()+"IMG_ALT_TAGS";
     private AtomicInteger count = new AtomicInteger(0);
 
     private static File DE_xl = new File(System.getProperty("user.dir"),"/src/test/resources/DE_HomePage.xlsx");
     private static File EN_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
+    private static File skipped_URLs_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
     @BeforeMethod
     public void createDriver(){
         try {
@@ -509,6 +510,56 @@ public class BaseTest  {
     public static JavascriptExecutor getJsExecutor() {
         return (JavascriptExecutor)driver.get();
     }
+    public void verifyImageAltAttributes(String lang) throws GeneralSecurityException, IOException {
+        Set<String> urlsToSkip = readSkipURLsFromExcel(skipped_URLs_xl);
+        String altValue=null;
+        List<String> novalnetLinks = getAllNovalnetLinks();
+        List<List<Object>> dataToWrite = new ArrayList<>();
+        for(String novalnetURL:novalnetLinks) {
+            openURL(novalnetURL);
+            if (checkedURLs.add(novalnetURL)) {
+                waitForAllElementLocated(By.xpath("//img"));
+                List<WebElement> images = driver.get().findElements(By.xpath("//img"));
+                for (WebElement image : images) {
+                    String imageURL = image.getAttribute("src");
+                    altValue = image.getAttribute("alt");
 
+                    if (urlsToSkip.contains(imageURL)) {
+                        continue;
+                    }
+                    if(altValue.isEmpty()){
+                        altValue="NIL";
+                    }
+                   if (lang.equals("DE")){
+                    writeDataToSheet_DE(imagealtchecksheetname, new ArrayList<Object>(Arrays.asList(novalnetURL, "YES", imageURL, altValue)), DE_xl);
+                }
+                   else {
+                       writeDataToSheet_DE(imagealtchecksheetname, new ArrayList<Object>(Arrays.asList(novalnetURL, "YES", imageURL, altValue)), EN_xl);
+                   }
+            }
+        }
+    }
+    }
+    // Method to read URLs to skip from an Excel file
+    private static Set<String> readSkipURLsFromExcel(File file) throws IOException {
+        Set<String> skipURLs = new HashSet<>();
+        try (FileInputStream fis = new FileInputStream(file);
+             Workbook workbook = new XSSFWorkbook(fis)) {
 
+            Sheet sheet = workbook.getSheetAt(0); // Assuming data is in the first sheet
+            for (Row row : sheet) {
+                Cell cell = row.getCell(0); // Assuming URLs are in the first column
+                if (cell != null && cell.getCellType() == CellType.STRING) {
+                    String url = cell.getStringCellValue().trim();
+                    if (!url.isEmpty()) {
+                        skipURLs.add(url);
+                    }
+                }
+            }
+        }
+        return skipURLs;
+    }
 }
+
+
+

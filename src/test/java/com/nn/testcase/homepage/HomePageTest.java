@@ -21,7 +21,7 @@ public class HomePageTest extends BaseTest {
     }
 
 
-  // @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
+   @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
     public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
        openURL(input);
        waitForTitleContains("XML Sitemap");
@@ -29,14 +29,14 @@ public class HomePageTest extends BaseTest {
        checkSublinks();
     }
 
-  // @Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
+    @Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
     public void brokenImage_DE(String input) throws GeneralSecurityException, IOException {
        openURL(input);
         waitForTitleContains("XML Sitemap");
        verifyBrokenImages("DE");
     }
 
-   //@Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
+    @Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
     public void brokenImage_EN(String input) throws GeneralSecurityException, IOException {
        openURL(input);
         waitForTitleContains("XML Sitemap");
@@ -58,11 +58,19 @@ public class HomePageTest extends BaseTest {
     }
 
     //@Test(priority = 7,dataProvider = "siteMap_Url_DE",description = "Verify images are mentioned in alt tag")
-    public void imageAltTagChecker(String input) throws GeneralSecurityException, IOException {
+    public void imageAltTagChecker_DE(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-       // verifyImageAltAttributes();
+        verifyImageAltAttributes("DE");
     }
+
+    //@Test(priority = 8,dataProvider = "siteMap_Url_EN",description = "Verify images are mentioned in alt tag")
+    public void imageAltTagChecker_EN(String input) throws GeneralSecurityException, IOException {
+        openURL(input);
+        waitForTitleContains(("XML Sitemap"));
+        verifyImageAltAttributes("EN");
+    }
+
    // @Test(priority = 4,dataProvider = "siteMap_Url",description = "gffdgd")
     public void verifyMetaData(String input) throws IOException, GeneralSecurityException {
        // DriverActions.openURL(input);
@@ -96,15 +104,15 @@ public class HomePageTest extends BaseTest {
 
             @DataProvider()
     public Object[][] siteMap_Url_EN(){
-        return new Object[][] {/*{"https://www.novalnet.com/post-sitemap.xml"},
+        return new Object[][] {{"https://www.novalnet.com/post-sitemap.xml"},
                  {"https://www.novalnet.com/page-sitemap.xml"},
                   {"https://www.novalnet.com/integration-sitemap.xml"},
                  {"https://www.novalnet.com/news-sitemap.xml"},
                 {"https://www.novalnet.com/paymentsolution-sitemap.xml"},
                 {"https://www.novalnet.com/glossary-sitemap.xml"},
                    {"https://www.novalnet.com/news_categories-sitemap.xml"},
-                   {"https://www.novalnet.com/glossary_categories-sitemap.xml"},*/
-                    {"https://www.novalnet.com/post-sitemap.xml"}
+                   {"https://www.novalnet.com/glossary_categories-sitemap.xml"},
+                    {"https://www.novalnet.com/careers-sitemap.xml"}
         };
     }
 
