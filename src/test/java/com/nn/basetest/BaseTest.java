@@ -443,7 +443,6 @@ public class BaseTest  {
 
     public void openURL(String url){
         getDriver().get(url);
-        waitForPageLoad();
         System.out.println("Open URL: " + url);
     }
 
