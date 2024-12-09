@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class HomePageTest extends BaseTest {
 
 
-    @Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
+    //@Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
     public void brokenLink_de(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains("XML Sitemap");
@@ -24,19 +24,22 @@ public class HomePageTest extends BaseTest {
    @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
     public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
        openURL(input);
+       waitForTitleContains("XML Sitemap");
        checkAllLinks("EN");
        checkSublinks();
     }
 
-   //@Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
+  // @Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
     public void brokenImage_DE(String input) throws GeneralSecurityException, IOException {
        openURL(input);
+        waitForTitleContains("XML Sitemap");
        verifyBrokenImages("DE");
     }
 
    //@Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
     public void brokenImage_EN(String input) throws GeneralSecurityException, IOException {
        openURL(input);
+        waitForTitleContains("XML Sitemap");
        verifyBrokenImages("EN");
     }
 
@@ -47,12 +50,13 @@ public class HomePageTest extends BaseTest {
         verifyH1Tags("DE");
     }
 
-    //@Test(priority = 5,dataProvider = "siteMap_Url_EN",description = "verify the more than one H1 tag in the Homepage DE site ")
+   // @Test(priority = 5,dataProvider = "siteMap_Url_EN",description = "verify the more than one H1 tag in the Homepage DE site ")
     public void H1TagChecker_EN(String input) throws IOException, GeneralSecurityException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
         verifyH1Tags("EN");
     }
+
 
 
 

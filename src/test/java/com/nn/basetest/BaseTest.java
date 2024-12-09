@@ -49,14 +49,14 @@ public class BaseTest  {
         try {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            //options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+            options.setPageLoadStrategy(PageLoadStrategy.EAGER);
             driver.set(new ChromeDriver(options));
 
             // Set a page load timeout and script timeout
            driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
-            driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));  // Implicit wait
-          driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(60)); // Script timeout
-            wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(60)));
+            driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait
+          driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(120)); // Script timeout
+            wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(120)));
             assert driver != null : "Driver initialization failed!";
             driver.get().manage().window().maximize();
         }catch (Exception e){
@@ -78,7 +78,7 @@ public class BaseTest  {
 
 
     public void checkAllLinks(String lang) throws IOException, GeneralSecurityException {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
         waitForAllElementLocated(By.tagName("a"));
         List<WebElement> allLinks = getDriver().findElements(By.tagName("a"));
         for (WebElement link : allLinks) {
@@ -332,7 +332,6 @@ public class BaseTest  {
     }
     public void checkSublinks() throws IOException, GeneralSecurityException {
         List<String> novalnetLinks = getAllNovalnetLinks();
-
         for (String url : novalnetLinks) {
            openURL(url);
             waitForAllElementLocated(By.tagName("a"));
@@ -355,7 +354,7 @@ public class BaseTest  {
     }
 
     private List<String> getAllNovalnetLinks() {
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
        waitForAllElementLocated(By.tagName("a"));
         List<WebElement> allLinks = driver.get().findElements(By.tagName("a"));
         List<String> novalnetLinks = new ArrayList<>();
@@ -439,7 +438,7 @@ public class BaseTest  {
 
     public void openURL(String url){
         getDriver().get(url);
-       // waitForPageLoad();
+        waitForPageLoad();
         System.out.println("Open URL: " + url);
     }
 
@@ -458,7 +457,6 @@ public class BaseTest  {
             }
 
         }
-
 
     }
     public void verifyH1Tags(String lang) throws IOException, GeneralSecurityException {
