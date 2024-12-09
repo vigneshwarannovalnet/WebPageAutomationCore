@@ -20,6 +20,7 @@ public class HomePageTest extends BaseTest {
         checkSublinks();
     }
 
+
    @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
     public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
        openURL(input);
@@ -68,6 +69,7 @@ public class HomePageTest extends BaseTest {
                 {"https://www.novalnet.de/category-sitemap.xml"},
                 {"https://www.novalnet.de/post_tag-sitemap.xml"},*/
                 {"https://www.novalnet.de/page-sitemap.xml"}};
+
     }
 
        /* @DataProvider()
