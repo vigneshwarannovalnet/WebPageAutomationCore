@@ -10,14 +10,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openqa.selenium.By;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.*;
@@ -35,8 +34,12 @@ public class BaseTest  {
     private static ThreadLocal<ChromeDriver> driver = new ThreadLocal<>();
     private static ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
     private Set<String> checked200UrlS = new CopyOnWriteArraySet<>();
+    private Set<String> checkedURLs = new CopyOnWriteArraySet<>();
     public String linkchecksheetname = LocalDate.now()+"_BROKENLINK";
     public String imagechecksheetname =LocalDate.now()+"_BROKENIMAGE";
+    public String H1tagchecksheetname = LocalDate.now()+"H1TAGS";
+
+
     private AtomicInteger count = new AtomicInteger(0);
 
     private static File DE_xl = new File(System.getProperty("user.dir"),"/src/test/resources/DE_HomePage.xlsx");
@@ -46,7 +49,7 @@ public class BaseTest  {
         try {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+            //options.setPageLoadStrategy(PageLoadStrategy.EAGER);
             driver.set(new ChromeDriver(options));
 
             // Set a page load timeout and script timeout
@@ -76,6 +79,7 @@ public class BaseTest  {
 
     public void checkAllLinks(String lang) throws IOException, GeneralSecurityException {
         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        waitForAllElementLocated(By.tagName("a"));
         List<WebElement> allLinks = getDriver().findElements(By.tagName("a"));
         for (WebElement link : allLinks) {
             String href = link.getAttribute("href");
@@ -122,7 +126,6 @@ public class BaseTest  {
                 statusCode = response.getStatusLine().getStatusCode();
                 StatusLine statusLine = response.getStatusLine();
                 statusMessage = statusLine.getReasonPhrase();
-                System.out.println("url: " + url + ", statusCode: " + statusCode + ", statusMessage: " + statusMessage + ", sourceUrl: " + sourceUrl);
                 if (statusCode == 200) {
                     System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
                     if(checked200UrlS.add(url)){
@@ -223,9 +226,6 @@ public class BaseTest  {
                     cell.setCellValue(value.toString());
                 }
             }
-
-            // Debug print to check if the data is correctly written
-            System.out.println("Data written to sheet: " + sheetName);
 
             // Write changes back to the file
             try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
@@ -337,8 +337,6 @@ public class BaseTest  {
            openURL(url);
             waitForAllElementLocated(By.tagName("a"));
             List<WebElement> innerLinks = driver.get().findElements(By.tagName("a"));
-           waitForAllElementLocated(By.tagName("img"));
-            List<WebElement> imgTags = driver.get().findElements(By.tagName("img"));
             for (WebElement innerLink : innerLinks) {
                 String subUrl = innerLink.getAttribute("href");
                 if (subUrl != null && !subUrl.isEmpty()
@@ -357,6 +355,7 @@ public class BaseTest  {
     }
 
     private List<String> getAllNovalnetLinks() {
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
        waitForAllElementLocated(By.tagName("a"));
         List<WebElement> allLinks = driver.get().findElements(By.tagName("a"));
         List<String> novalnetLinks = new ArrayList<>();
@@ -430,9 +429,17 @@ public class BaseTest  {
         return siteMap_urls;
     }
 
+    public Object[][] convertListToDataProvider(List<String> urls) {
+        Object[][] data = new Object[urls.size()][1];
+        for (int i = 0; i < urls.size(); i++) {
+            data[i][0] = urls.get(i);
+        }
+        return data;
+    }
+
     public void openURL(String url){
         getDriver().get(url);
-        wait.get().until(ExpectedConditions.urlToBe(url));
+       // waitForPageLoad();
         System.out.println("Open URL: " + url);
     }
 
@@ -453,6 +460,52 @@ public class BaseTest  {
         }
 
 
+    }
+    public void verifyH1Tags(String lang) throws IOException, GeneralSecurityException {
+        List<String> novalnetLinks = getAllNovalnetLinks();
+        List<List<Object>> dataToWrite = new ArrayList<>();
+
+        for (String url : novalnetLinks) {
+            openURL(url);
+            if (url != null && !url.isEmpty() && url.contains("novalnet") && checkedURLs.add(url)) {
+                waitForAllElementLocated(By.xpath("//h1"));
+                List<WebElement> h1Tags = driver.get().findElements(By.xpath("//h1"));
+                String lengthCondition = (h1Tags.size()<=1) ? "Yes" : "No";
+                if(lang.equals("DE")){
+                    writeDataToSheet_DE(H1tagchecksheetname, new ArrayList<Object>(Arrays.asList(url, h1Tags.size(), lengthCondition)), DE_xl);
+                }
+               else {
+                    writeDataToSheet_EN(H1tagchecksheetname, new ArrayList<Object>(Arrays.asList(url, h1Tags.size(), lengthCondition)), EN_xl);
+                }
+            }
+        }
+
+    }
+
+    public static void waitForPageLoad() {
+        WebDriverWait wait = new WebDriverWait(driver.get(), Duration.ofSeconds(120));
+
+        ExpectedCondition<Boolean> pageLoad = new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(WebDriver input) {
+                return getJsExecutor().executeScript("return document.readyState").equals("complete");
+            }
+        };
+
+        boolean pageLoaded = getJsExecutor().executeScript("return document.readyState").equals("complete");
+
+        if(!pageLoaded) {
+            System.out.println("Javascript is not loaded ");
+            try {
+                wait.until(pageLoad);
+            }catch(Throwable error) {
+                error.printStackTrace();
+                Assert.fail("Timeout waiting for page load (Javascript). (" + 120 + "s)");
+            }
+        }
+    }
+    public static JavascriptExecutor getJsExecutor() {
+        return (JavascriptExecutor)driver.get();
     }
 
 
