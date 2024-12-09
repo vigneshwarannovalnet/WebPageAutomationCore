@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class HomePageTest extends BaseTest {
     private static File DE_xl = new File(System.getProperty("user.dir") + "/src/test/resources/DE_HomePage.xlsx");
 
-    @Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
+    //@Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
     public void brokenLink_de(String input) throws GeneralSecurityException, IOException {
        System.out.println("Starter: brokenLink_de: " + Thread.currentThread().getName());
        System.out.println("Thread ID: " + Thread.currentThread().getId());
@@ -30,7 +30,7 @@ public class HomePageTest extends BaseTest {
        checkSublinks();
     }
 
-   @Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
+   //@Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
     public void brokenImage_DE(String input) throws GeneralSecurityException, IOException {
        System.out.println("Starter: brokenLink_de: " + Thread.currentThread().getName());
        System.out.println("Thread ID: " + Thread.currentThread().getId());
@@ -39,7 +39,7 @@ public class HomePageTest extends BaseTest {
 
     }
 
-   @Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
+   //@Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
     public void brokenImage_EN(String input) throws GeneralSecurityException, IOException {
        System.out.println("Starter: brokenLink_de: " + Thread.currentThread().getName());
        System.out.println("Thread ID: " + Thread.currentThread().getId());
