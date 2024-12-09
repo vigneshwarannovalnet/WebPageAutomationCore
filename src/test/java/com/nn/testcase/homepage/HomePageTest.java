@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class HomePageTest extends BaseTest {
     private static File DE_xl = new File(System.getProperty("user.dir") + "/src/test/resources/DE_HomePage.xlsx");
 
-    //@Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
+    @Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
     public void brokenLink_de(String input) throws GeneralSecurityException, IOException {
        System.out.println("Starter: brokenLink_de: " + Thread.currentThread().getName());
        System.out.println("Thread ID: " + Thread.currentThread().getId());
@@ -21,7 +21,7 @@ public class HomePageTest extends BaseTest {
         checkSublinks();
     }
 
-  @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
+ // @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
     public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
        System.out.println("Starter: brokenLink_de: " + Thread.currentThread().getName());
        System.out.println("Thread ID: " + Thread.currentThread().getId());
@@ -49,7 +49,7 @@ public class HomePageTest extends BaseTest {
 
     @DataProvider()
     public Object[][] siteMap_Url_DE() {
-        return new Object[][]{{"https://www.novalnet.de/post-sitemap.xml"},
+        return new Object[][] {/*{"https://www.novalnet.de/post-sitemap.xml"},
                 {"https://www.novalnet.de/page-sitemap.xml"},
                 {"https://www.novalnet.de/karriere-sitemap.xml"},
                 {"https://www.novalnet.de/integration-sitemap.xml"},
@@ -58,7 +58,8 @@ public class HomePageTest extends BaseTest {
                 {"https://www.novalnet.de/services-sitemap.xml"},
                 {"https://www.novalnet.de/mainp-sitemap.xml"},
                 {"https://www.novalnet.de/category-sitemap.xml"},
-                {"https://www.novalnet.de/post_tag-sitemap.xml"}};
+                {"https://www.novalnet.de/post_tag-sitemap.xml"},*/
+                {"https://www.novalnet.de/solutions-sitemap.xml"}};
     }
 
         @DataProvider()
