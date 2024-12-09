@@ -47,11 +47,16 @@ public class BaseTest  {
     @BeforeMethod
     public void createDriver(){
         try {
+            System.out.println("Launching Chrome Driver...");
+            System.setProperty("webdriver.http.factory", "jdk-http-client");
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless");
-            options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+            options.addArguments("--remote-allow-origins=*");
+            options.addArguments("--disable-notifications");
+            options.addArguments("--disable-infobars");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--disable-popup-blocking");
             driver.set(new ChromeDriver(options));
-
             // Set a page load timeout and script timeout
            driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
             driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait

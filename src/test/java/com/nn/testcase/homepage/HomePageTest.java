@@ -12,7 +12,7 @@ import java.util.Arrays;
 public class HomePageTest extends BaseTest {
 
 
-    //@Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
+   // @Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
     public void brokenLink_de(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains("XML Sitemap");
