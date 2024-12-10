@@ -21,7 +21,7 @@ public class HomePageTest extends BaseTest {
     }
 
 
-   //@Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
+    @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
     public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
        openURL(input);
        waitForTitleContains("XML Sitemap");
@@ -29,14 +29,14 @@ public class HomePageTest extends BaseTest {
        checkSublinks("EN");
     }
 
-    //@Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
+     @Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
     public void brokenImage_DE(String input) throws GeneralSecurityException, IOException {
        openURL(input);
         waitForTitleContains("XML Sitemap");
        verifyBrokenImages("DE");
     }
 
-    //@Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
+     @Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
     public void brokenImage_EN(String input) throws GeneralSecurityException, IOException {
        openURL(input);
         waitForTitleContains("XML Sitemap");
@@ -86,7 +86,7 @@ public class HomePageTest extends BaseTest {
 
 
 
-    @DataProvider()
+    @DataProvider(parallel = false)
     public Object[][] siteMap_Url_DE() {
         return new Object[][] {{"https://www.novalnet.de/post-sitemap.xml"},
         {"https://www.novalnet.de/page-sitemap.xml"},
@@ -102,7 +102,7 @@ public class HomePageTest extends BaseTest {
 
     }
 
-       @DataProvider()
+       @DataProvider(parallel = false)
        public Object[][] siteMap_Url_EN(){
         return new Object[][] {{"https://www.novalnet.com/post-sitemap.xml"},
                 {"https://www.novalnet.com/page-sitemap.xml"},

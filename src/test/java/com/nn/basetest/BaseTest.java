@@ -47,7 +47,7 @@ public class BaseTest  {
     private static File DE_xl = new File(System.getProperty("user.dir"),"/src/test/resources/DE_HomePage.xlsx");
     private static File EN_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
     private static File skipped_URLs_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
-    @BeforeMethod
+    @BeforeTest
     public void createDriver(){
         try {
             System.out.println("Launching Chrome Driver...");
@@ -75,7 +75,7 @@ public class BaseTest  {
     }
 
 
-    @AfterMethod
+    @AfterTest
     public void cleanUp() {
         if (driver.get() != null) {
             driver.get().quit();
