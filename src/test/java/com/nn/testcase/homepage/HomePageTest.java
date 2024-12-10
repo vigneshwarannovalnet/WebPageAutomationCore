@@ -86,7 +86,7 @@ public class HomePageTest extends BaseTest {
 
 
 
-    @DataProvider()
+    @DataProvider(parallel = false)
     public Object[][] siteMap_Url_DE() {
         return new Object[][] {{"https://www.novalnet.de/post-sitemap.xml"},
         {"https://www.novalnet.de/page-sitemap.xml"},
@@ -102,7 +102,7 @@ public class HomePageTest extends BaseTest {
 
     }
 
-       @DataProvider()
+       @DataProvider(parallel = false)
        public Object[][] siteMap_Url_EN(){
         return new Object[][] {{"https://www.novalnet.com/post-sitemap.xml"},
                 {"https://www.novalnet.com/page-sitemap.xml"},
