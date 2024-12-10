@@ -53,7 +53,7 @@ public class BaseTest  {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
             ChromeOptions options = new ChromeOptions();
-        //   options.addArguments("--headless");
+          options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-infobars");
