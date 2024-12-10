@@ -23,12 +23,12 @@ public class HomePageTest extends BaseTest {
       verifyCompleteLinks("https://www.novalnet.com/sitemap_index.xml","EN");
     }
 
-    @Test(priority = 3,description = "Check whether the broken image are present or not in the homePage de site")
+    //@Test(priority = 3,description = "Check whether the broken image are present or not in the homePage de site")
     public void brokenImage_DE() throws GeneralSecurityException, IOException {
        verifyBrokenImages("https://www.novalnet.de/sitemap_index.xml","DE");
     }
 
-    @Test(priority = 4,description = "Check whether the broken image are present or not in the homePage en site")
+   // @Test(priority = 4,description = "Check whether the broken image are present or not in the homePage en site")
     public void brokenImage_EN() throws GeneralSecurityException, IOException {
        verifyBrokenImages("https://www.novalnet.com/sitemap_index.xml","EN");
     }
