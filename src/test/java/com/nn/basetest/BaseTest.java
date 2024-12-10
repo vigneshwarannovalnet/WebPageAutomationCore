@@ -33,7 +33,9 @@ public class BaseTest  {
      private static final Lock lock = new ReentrantLock();
     private static ThreadLocal<ChromeDriver> driver = new ThreadLocal<>();
     private static ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
-    private Set<String> checked200UrlS = new CopyOnWriteArraySet<>();
+    private Set<String> checked200UrlS_DE = new HashSet<>();
+
+    private Set<String> checked200UrlS_EN = new HashSet<>();
     private Set<String> checkedURLs = new CopyOnWriteArraySet<>();
     public String linkchecksheetname = LocalDate.now()+"_BROKENLINK";
     public String imagechecksheetname =LocalDate.now()+"_BROKENIMAGE";
@@ -51,7 +53,7 @@ public class BaseTest  {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless");
+           // options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-infobars");
@@ -59,9 +61,9 @@ public class BaseTest  {
             options.addArguments("--disable-popup-blocking");
             driver.set(new ChromeDriver(options));
             // Set a page load timeout and script timeout
-           driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
-            driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait
-          driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(120)); // Script timeout
+          // driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
+           // driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait
+        //  driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(120)); // Script timeout
             wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(120)));
             assert driver != null : "Driver initialization failed!";
             driver.get().manage().window().maximize();
@@ -84,13 +86,18 @@ public class BaseTest  {
 
 
     public void checkAllLinks(String lang) throws IOException, GeneralSecurityException {
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         waitForAllElementLocated(By.tagName("a"));
         List<WebElement> allLinks = getDriver().findElements(By.tagName("a"));
         for (WebElement link : allLinks) {
             String href = link.getAttribute("href");
             if (href != null && !href.isEmpty() && href.contains("novalnet")) {
-                verifyLink( "N/A", href,linkchecksheetname,lang);
+                if(lang.equals("DE")){
+                    verifyLink_DE("N/A", href,linkchecksheetname);
+                }else {
+                    verifyLink_EN("N/A", href,linkchecksheetname);
+                }
+
             }
         }
 
@@ -106,11 +113,11 @@ public class BaseTest  {
         getWait().until(ExpectedConditions.titleContains(title));;
     }
 
-    private void verifyLink(String sourceUrl, String url ,String sheetname,String lang) throws IOException, GeneralSecurityException {
+    private void verifyLink_DE(String sourceUrl, String url ,String sheetname) throws IOException, GeneralSecurityException {
 
         boolean result =false;
-        for(String successURLs :checked200UrlS){
-            result = successURLs.equals(url);
+        for(String successURs :checked200UrlS_DE){
+            result = successURs.equals(url);
             if (result==true)
                 break;
         }
@@ -120,7 +127,6 @@ public class BaseTest  {
             int currentCount = count.incrementAndGet();
 
             try {
-
                 RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000) // 30 seconds connect
                         // timeout
                         .setSocketTimeout(30 * 1000) // 30 seconds socket timeout
@@ -132,40 +138,73 @@ public class BaseTest  {
                 statusCode = response.getStatusLine().getStatusCode();
                 StatusLine statusLine = response.getStatusLine();
                 statusMessage = statusLine.getReasonPhrase();
+
                 if (statusCode == 200) {
                     System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
-                    if(checked200UrlS.add(url)){
-                        if(lang.equals("DE")){
-                            writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
-                        }else {
-                            writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
-                        }
-
+                    if(checked200UrlS_DE.add(url)){
+                        writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
                     }
 
                 } else {
-                    if(lang.equals("DE")){
-                        writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
-                    }else {
-                        writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
-                    }
-                    System.err.println(currentCount + ": " + url + ": " + "Link is not 200 status code (HTTP response code: "
+                    writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Link is broken (HTTP response code: "
                             + statusCode + ")");
                 }
             } catch (Exception e) {
                 if (statusCode == 0) {
-                    if(lang.equals("DE")){
-                        writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
-                    }else {
-                        writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
-                    }
+                    writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), DE_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 } else {
-                    if(lang.equals("DE")){
-                        writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
-                    }else {
+                    writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
+                }
+            }
+        }
+
+    }
+    private void verifyLink_EN(String sourceUrl, String url ,String sheetname) throws IOException, GeneralSecurityException {
+
+        boolean result =false;
+        for(String successURs :checked200UrlS_EN){
+            result = successURs.equals(url);
+            if (result==true)
+                break;
+        }
+        if(result!=true){
+            int statusCode = 0;
+            String statusMessage = null;
+            int currentCount = count.incrementAndGet();
+
+            try {
+                RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000) // 30 seconds connect
+                        // timeout
+                        .setSocketTimeout(30 * 1000) // 30 seconds socket timeout
+                        .build();
+
+                HttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
+                HttpGet request = new HttpGet(url);
+                HttpResponse response = httpClient.execute(request);
+                statusCode = response.getStatusLine().getStatusCode();
+                StatusLine statusLine = response.getStatusLine();
+                statusMessage = statusLine.getReasonPhrase();
+
+                if (statusCode == 200) {
+                    System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
+                    if(checked200UrlS_EN.add(url)){
                         writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     }
+
+                } else {
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Link is broken (HTTP response code: "
+                            + statusCode + ")");
+                }
+            } catch (Exception e) {
+                if (statusCode == 0) {
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), EN_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
+                } else {
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 }
             }
@@ -173,144 +212,99 @@ public class BaseTest  {
 
     }
     public void writeDataToSheet_DE(String sheetName, List<Object> data, File filePath) throws IOException {
-        lock.lock(); // Ensure thread safety
-        try (FileInputStream fileInputStream = new FileInputStream(filePath);
-             Workbook workbook = new XSSFWorkbook(fileInputStream)) {
+        lock.lock();  // Lock the block to prevent concurrent writes
+        try {
+            // Load the existing workbook
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            Workbook workbook = new XSSFWorkbook(fileInputStream);
 
-            // Get or create the sheet
-            Sheet sheet = workbook.getSheet(sheetName);
+            // Get the sheet, or create it if it doesn't exist
+            org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheet(sheetName);
             if (sheet == null) {
                 sheet = workbook.createSheet(sheetName);
             }
 
-            // Define the headings for the first row
-            String[] headings = {"URL", "Status Code", "Status Text", "Source Page URL"};
-
-            // Add headings if the first row is empty
-            if (sheet.getRow(0) == null) {
-                Row headerRow = sheet.createRow(0);
-                for (int i = 0; i < headings.length; i++) {
-                    Cell cell = headerRow.createCell(i);
-                    cell.setCellValue(headings[i]);
-                    CellStyle style = workbook.createCellStyle();
-                    Font font = workbook.createFont();
-                    font.setBold(true); // Make the header bold
-                    style.setFont(font);
-                    cell.setCellStyle(style);
-                }
-            }
-
-            // Check if data is null or empty
-            if (data == null || data.isEmpty()) {
-                System.err.println("No data provided to write to the sheet.");
-                return; // Exit early if there's no data
-            }
-
-            // Find the next available row for data
+            // Get the next available row number
             int nextRowNum = getNextRow(sheet);
             Row row = sheet.createRow(nextRowNum);
-            if (row == null) {
-                throw new IllegalStateException("Failed to create a new row at index: " + nextRowNum);
-            }
 
-            // Write data to the row
+            // Write the data into the cells
             int cellNum = 0;
             for (Object value : data) {
                 Cell cell = row.createCell(cellNum++);
-                if (cell == null) {
-                    throw new IllegalStateException("Failed to create a new cell at column: " + (cellNum - 1));
-                }
-                if (value == null) {
-                    System.out.println("Null value found in data at index: " + (cellNum - 1));
-                    cell.setCellValue("NULL"); // Handle null values gracefully
-                } else if (value instanceof String) {
+                // Check the type of value before setting the cell value
+                if (value instanceof String) {
                     cell.setCellValue((String) value);
                 } else if (value instanceof Integer) {
                     cell.setCellValue((Integer) value);
+                } else if (value instanceof Double) {
+                    cell.setCellValue((Double) value);
                 } else {
-                    System.out.println("Sheet data is: " + value);
-                    cell.setCellValue(value.toString());
+                    cell.setCellValue(value.toString());  // Default to string conversion
                 }
             }
 
-            // Write changes back to the file
-            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                workbook.write(outputStream);
-            }
+            // Close the input stream
+            fileInputStream.close();
 
+            // Write the changes back to the file
+            FileOutputStream outputStream = new FileOutputStream(filePath);
+            workbook.write(outputStream);
+
+            // Close the workbook and output stream
+            workbook.close();
+            outputStream.close();
         } finally {
-            lock.unlock(); // Ensure the lock is released
+            lock.unlock();  // Ensure the lock is released even if an exception occurs
         }
     }
 
 
     public void writeDataToSheet_EN(String sheetName, List<Object> data, File filePath) throws IOException {
-        lock.lock(); // Ensure thread safety
-        try (FileInputStream fileInputStream = new FileInputStream(filePath);
-             Workbook workbook = new XSSFWorkbook(fileInputStream)) {
+        lock.lock();  // Lock the block to prevent concurrent writes
+        try {
+            // Load the existing workbook
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            Workbook workbook = new XSSFWorkbook(fileInputStream);
 
-            // Get or create the sheet
-            Sheet sheet = workbook.getSheet(sheetName);
+            // Get the sheet, or create it if it doesn't exist
+            org.apache.poi.ss.usermodel.Sheet sheet = workbook.getSheet(sheetName);
             if (sheet == null) {
                 sheet = workbook.createSheet(sheetName);
             }
 
-            // Define the headings for the first row
-            String[] headings = {"URL", "Status Code", "Status Text", "Source Page URL"};
-
-            // Add headings if the first row is empty
-            if (sheet.getRow(0) == null) {
-                Row headerRow = sheet.createRow(0);
-                for (int i = 0; i < headings.length; i++) {
-                    Cell cell = headerRow.createCell(i);
-                    cell.setCellValue(headings[i]);
-                    CellStyle style = workbook.createCellStyle();
-                    Font font = workbook.createFont();
-                    font.setBold(true); // Make the header bold
-                    style.setFont(font);
-                    cell.setCellStyle(style);
-                }
-            }
-
-            // Check if data is null or empty
-            if (data == null || data.isEmpty()) {
-                System.err.println("No data provided to write to the sheet.");
-                return; // Exit early if there's no data
-            }
-
-            // Find the next available row for data
+            // Get the next available row number
             int nextRowNum = getNextRow(sheet);
             Row row = sheet.createRow(nextRowNum);
-            if (row == null) {
-                throw new IllegalStateException("Failed to create a new row at index: " + nextRowNum);
-            }
 
-            // Write data to the row
+            // Write the data into the cells
             int cellNum = 0;
             for (Object value : data) {
                 Cell cell = row.createCell(cellNum++);
-                if (cell == null) {
-                    throw new IllegalStateException("Failed to create a new cell at column: " + (cellNum - 1));
-                }
-                if (value == null) {
-                    System.out.println("Null value found in data at index: " + (cellNum - 1));
-                    cell.setCellValue("NULL"); // Handle null values gracefully
-                } else if (value instanceof String) {
+                // Check the type of value before setting the cell value
+                if (value instanceof String) {
                     cell.setCellValue((String) value);
                 } else if (value instanceof Integer) {
                     cell.setCellValue((Integer) value);
+                } else if (value instanceof Double) {
+                    cell.setCellValue((Double) value);
                 } else {
-                    System.out.println("Sheet data is: " + value);
-                    cell.setCellValue(value.toString());
+                    cell.setCellValue(value.toString());  // Default to string conversion
                 }
             }
 
-            // Write changes back to the file
-            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                workbook.write(outputStream);
-            }
+            // Close the input stream
+            fileInputStream.close();
+
+            // Write the changes back to the file
+            FileOutputStream outputStream = new FileOutputStream(filePath);
+            workbook.write(outputStream);
+
+            // Close the workbook and output stream
+            workbook.close();
+            outputStream.close();
         } finally {
-            lock.unlock(); // Ensure the lock is released
+            lock.unlock();  // Ensure the lock is released even if an exception occurs
         }
     }
 
@@ -336,7 +330,7 @@ public class BaseTest  {
         }
         return true;
     }
-    public void checkSublinks() throws IOException, GeneralSecurityException {
+    public void checkSublinks(String lang) throws IOException, GeneralSecurityException {
         List<String> novalnetLinks = getAllNovalnetLinks();
         for (String url : novalnetLinks) {
            openURL(url);
@@ -346,7 +340,12 @@ public class BaseTest  {
                 String subUrl = innerLink.getAttribute("href");
                 if (subUrl != null && !subUrl.isEmpty()
                         && (subUrl.startsWith("https://") || subUrl.startsWith("http://"))) {
-                    verifyLink(url, subUrl, linkchecksheetname,"Broken_Link");
+                    if(lang.equals("DE")){
+                        verifyLink_DE(url, subUrl, linkchecksheetname);
+                    }else {
+                        verifyLink_EN(url, subUrl, linkchecksheetname);
+                    }
+
                 }
 
             }
@@ -360,7 +359,7 @@ public class BaseTest  {
     }
 
     private List<String> getAllNovalnetLinks() {
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
        waitForAllElementLocated(By.tagName("a"));
         List<WebElement> allLinks = driver.get().findElements(By.tagName("a"));
         List<String> novalnetLinks = new ArrayList<>();
@@ -456,7 +455,13 @@ public class BaseTest  {
             for (WebElement value : imgTags) {
                 String imageurl = value.getAttribute("src");
                 if (imageurl != null && (imageurl.contains("https") || imageurl.contains("http"))) {
-                    verifyLink(url, imageurl, imagechecksheetname,lang);
+
+                    if (lang.equals("DE")){
+                        verifyLink_DE(url, imageurl, imagechecksheetname);
+                    }else {
+                        verifyLink_EN(url, imageurl, imagechecksheetname);
+                    }
+
 
                 }
             }
