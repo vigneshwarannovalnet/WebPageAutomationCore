@@ -53,7 +53,7 @@ public class BaseTest  {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
             ChromeOptions options = new ChromeOptions();
-           options.addArguments("--headless");
+        //   options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-infobars");
@@ -330,47 +330,44 @@ public class BaseTest  {
         }
         return true;
     }
-    public void checkSublinks(String lang) throws IOException, GeneralSecurityException {
-        List<String> novalnetLinks = getAllNovalnetLinks();
-        for (String url : novalnetLinks) {
-           openURL(url);
-            waitForAllElementLocated(By.tagName("a"));
-            List<WebElement> innerLinks = driver.get().findElements(By.tagName("a"));
-            for (WebElement innerLink : innerLinks) {
-                String subUrl = innerLink.getAttribute("href");
-                if (subUrl != null && !subUrl.isEmpty()
-                        && (subUrl.startsWith("https://") || subUrl.startsWith("http://"))) {
-                    if(lang.equals("DE")){
-                        verifyLink_DE(url, subUrl, linkchecksheetname);
-                    }else {
-                        verifyLink_EN(url, subUrl, linkchecksheetname);
-                    }
 
+    public void checkSublinks(String source_URL,String lang) throws IOException, GeneralSecurityException {
+        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));
+        List<WebElement> innerLinks = driver.get().findElements(By.tagName("a"));
+        for (WebElement innerLink : innerLinks) {
+            String subUrl = innerLink.getAttribute("href");
+            if (subUrl != null && !subUrl.isEmpty()
+                    && (subUrl.startsWith("https://") || subUrl.startsWith("http://"))) {
+                if(lang.equals("DE")){
+                    verifyLink_DE(source_URL, subUrl, linkchecksheetname);
+                }else {
+                    verifyLink_EN(source_URL, subUrl, linkchecksheetname);
                 }
-
             }
 
         }
-    }
 
+    }
 
     public void waitForAllElementLocated(By by){
         getWait().until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
     }
 
-    private List<String> getAllNovalnetLinks() {
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
-       waitForAllElementLocated(By.tagName("a"));
-        List<WebElement> allLinks = driver.get().findElements(By.tagName("a"));
+    private List<String> getAllNovalnetLinks(String URL) {
         List<String> novalnetLinks = new ArrayList<>();
-
-        for (WebElement link : allLinks) {
-            String href = link.getAttribute("href");
-            if (href != null && href.contains("novalnet")) {
-                novalnetLinks.add(href);
+        List<String> site_map_urls = get_siteMap_urls(URL);
+        for(String novalnetLink: site_map_urls){
+            openURL(novalnetLink);
+            driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+            waitForAllElementLocated(By.tagName("a"));
+            List<WebElement> allLinks = driver.get().findElements(By.tagName("a"));
+            for (WebElement link : allLinks) {
+                String href = link.getAttribute("href");
+                if (href != null && href.contains("novalnet")) {
+                    novalnetLinks.add(href);
+                }
             }
         }
-
         return novalnetLinks;
     }
     public void deleteSheets() {
@@ -406,7 +403,7 @@ public class BaseTest  {
         }
     }
 
-    /*public void verifyCompleteLinks(String URL,String lang) throws GeneralSecurityException, IOException {
+    public void verifyCompleteLinks(String URL,String lang) throws GeneralSecurityException, IOException {
          List<String> siteMap_urls = get_siteMap_urls(URL);
          List<String> siteMap_inner_urls = getAllNovalnetLinks(URL);
         for (String url:siteMap_urls){
@@ -416,13 +413,13 @@ public class BaseTest  {
         }
         for (String url:siteMap_inner_urls){
             openURL(url);
-            System.out.println("Novalnet link" + url);
             checkSublinks(url,lang);
         }
-    }*/
+    }
     public List<String> get_siteMap_urls(String URL){
         List<String> siteMap_urls = new ArrayList<>();
         openURL(URL);
+        waitForTitleContains("XML Sitemap");
         driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         waitForAllElementLocated(By.xpath("//a[contains(@href,'novalnet')]"));
         List<WebElement> siteMapLinks = driver.get().findElements(By.xpath("//a[contains(@href,'novalnet')]"));
@@ -446,8 +443,8 @@ public class BaseTest  {
         System.out.println("Open URL: " + url);
     }
 
-    public void verifyBrokenImages(String lang) throws GeneralSecurityException, IOException {
-        List<String> novalnetLinks = getAllNovalnetLinks();
+    public void verifyBrokenImages(String  URL,String lang) throws GeneralSecurityException, IOException {
+        List<String> novalnetLinks = getAllNovalnetLinks(URL);
         for (String url : novalnetLinks) {
             openURL(url);
             waitForAllElementLocated(By.tagName("img"));
@@ -469,7 +466,7 @@ public class BaseTest  {
         }
 
     }
-    public void verifyH1Tags(String lang) throws IOException, GeneralSecurityException {
+    /*public void verifyH1Tags(String lang) throws IOException, GeneralSecurityException {
         List<String> novalnetLinks = getAllNovalnetLinks();
         List<List<Object>> dataToWrite = new ArrayList<>();
 
@@ -488,7 +485,7 @@ public class BaseTest  {
             }
         }
 
-    }
+    }*/
 
     public static void waitForPageLoad() {
         WebDriverWait wait = new WebDriverWait(driver.get(), Duration.ofSeconds(120));
@@ -515,7 +512,7 @@ public class BaseTest  {
     public static JavascriptExecutor getJsExecutor() {
         return (JavascriptExecutor)driver.get();
     }
-    public void verifyImageAltAttributes(String lang) throws GeneralSecurityException, IOException {
+   /* public void verifyImageAltAttributes(String lang) throws GeneralSecurityException, IOException {
         Set<String> urlsToSkip = readSkipURLsFromExcel(skipped_URLs_xl);
         String altValue=null;
         List<String> novalnetLinks = getAllNovalnetLinks();
@@ -544,7 +541,7 @@ public class BaseTest  {
             }
         }
     }
-    }
+    }*/
     // Method to read URLs to skip from an Excel file
     private static Set<String> readSkipURLsFromExcel(File file) throws IOException {
         Set<String> skipURLs = new HashSet<>();

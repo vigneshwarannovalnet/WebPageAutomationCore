@@ -12,63 +12,53 @@ import java.util.Arrays;
 public class HomePageTest extends BaseTest {
 
 
-   @Test(priority = 1, dataProvider = "siteMap_Url_DE",description = "Check whether the broken links  are present or not in the homePage de site")
-    public void brokenLink_de(String input) throws GeneralSecurityException, IOException {
-        openURL(input);
-        waitForTitleContains("XML Sitemap");
-        checkAllLinks("DE");
-        checkSublinks("DE");
+   @Test(priority = 1,description = "Check whether the broken links  are present or not in the homePage de site")
+    public void brokenLink_de() throws GeneralSecurityException, IOException {
+       verifyCompleteLinks("https://www.novalnet.de/sitemap_index.xml","DE");
     }
 
 
-    @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
-    public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
-       openURL(input);
-       waitForTitleContains("XML Sitemap");
-       checkAllLinks("EN");
-       checkSublinks("EN");
+    @Test(priority = 2,description = "Check whether the broken links are present or not in the homePage en site")
+    public void brokenLink_en() throws GeneralSecurityException, IOException {
+      verifyCompleteLinks("https://www.novalnet.com/sitemap_index.xml","EN");
     }
 
-     @Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
-    public void brokenImage_DE(String input) throws GeneralSecurityException, IOException {
-       openURL(input);
-        waitForTitleContains("XML Sitemap");
-       verifyBrokenImages("DE");
+     @Test(priority = 3,description = "Check whether the broken image are present or not in the homePage de site")
+    public void brokenImage_DE() throws GeneralSecurityException, IOException {
+       verifyBrokenImages("https://www.novalnet.de/sitemap_index.xml","DE");
     }
 
-     @Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
+     @Test(priority = 4,description = "Check whether the broken image are present or not in the homePage en site")
     public void brokenImage_EN(String input) throws GeneralSecurityException, IOException {
-       openURL(input);
-        waitForTitleContains("XML Sitemap");
-       verifyBrokenImages("EN");
+       verifyBrokenImages("https://www.novalnet.com/sitemap_index.xml","EN");
     }
 
     //@Test(priority = 5,dataProvider = "siteMap_Url_DE",description = "verify the more than one H1 tag in the Homepage DE site ")
     public void H1TagChecker_DE(String input) throws IOException, GeneralSecurityException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-        verifyH1Tags("DE");
+     //   verifyH1Tags("DE");
     }
 
    // @Test(priority = 6,dataProvider = "siteMap_Url_EN",description = "verify the more than one H1 tag in the Homepage DE site ")
     public void H1TagChecker_EN(String input) throws IOException, GeneralSecurityException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-        verifyH1Tags("EN");
+     //   verifyH1Tags("EN");
     }
 
     //@Test(priority = 7,dataProvider = "siteMap_Url_DE",description = "Verify images are mentioned in alt tag")
     public void imageAltTagChecker_DE(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-        verifyImageAltAttributes("DE");
+       // verifyImageAltAttributes("DE");
     }
 
     //@Test(priority = 8,dataProvider = "siteMap_Url_EN",description = "Verify images are mentioned in alt tag")
     public void imageAltTagChecker_EN(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-        verifyImageAltAttributes("EN");
+       // verifyImageAltAttributes("EN");
     }
 
    // @Test(priority = 4,dataProvider = "siteMap_Url",description = "gffdgd")
@@ -86,7 +76,7 @@ public class HomePageTest extends BaseTest {
 
 
 
-    @DataProvider(parallel = false)
+   /* @DataProvider(parallel = false)
     public Object[][] siteMap_Url_DE() {
         return new Object[][] {{"https://www.novalnet.de/post-sitemap.xml"},
         {"https://www.novalnet.de/page-sitemap.xml"},
@@ -115,7 +105,7 @@ public class HomePageTest extends BaseTest {
 
         };
     }
-
+*/
     /* @DataProvider()
         public Object[][] siteMap_Url_EN () {
             return convertListToDataProvider(get_siteMap_urls("https://www.novalnet.com/sitemap_index.xml"));
