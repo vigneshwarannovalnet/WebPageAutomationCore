@@ -59,9 +59,13 @@ public class BaseTest  {
             options.addArguments("--disable-infobars");
             options.addArguments("--disable-extensions");
             options.addArguments("--disable-popup-blocking");
+             options.addArguments("--no-proxy-server");
+options.addArguments("--disable-dev-shm-usage");
+options.addArguments("--disable-gpu");
+             System.setProperty("webdriver.chrome.verboseLogging", "true");
             driver.set(new ChromeDriver(options));
             // Set a page load timeout and script timeout
-         // driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
+         driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
             //driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait
         // driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(120)); // Script timeout
             wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(120)));
