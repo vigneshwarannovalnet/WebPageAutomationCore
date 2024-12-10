@@ -29,7 +29,7 @@ public class HomePageTest extends BaseTest {
     }
 
      @Test(priority = 4,description = "Check whether the broken image are present or not in the homePage en site")
-    public void brokenImage_EN(String input) throws GeneralSecurityException, IOException {
+    public void brokenImage_EN() throws GeneralSecurityException, IOException {
        verifyBrokenImages("https://www.novalnet.com/sitemap_index.xml","EN");
     }
 
