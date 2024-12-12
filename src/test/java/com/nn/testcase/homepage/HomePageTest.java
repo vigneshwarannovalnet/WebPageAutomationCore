@@ -84,9 +84,8 @@ public class HomePageTest extends BaseTest {
 
     @DataProvider()
     public Object[][] siteMap_Url_DE(){
-        return new Object[][] {
-                {"https://www.novalnet.de/post_tag-sitemap.xml"},
-                {"https://www.novalnet.de/author-sitemap.xml"}};
+        return new Object [][] {"https://www.novalnet.de/post-sitemap.xml"},
+                {"https://www.novalnet.de/page-sitemap.xml"}};
     }
 
        @DataProvider()
@@ -94,8 +93,8 @@ public class HomePageTest extends BaseTest {
         return new Object [][]
                  
                  {
-                 {"https://www.novalnet.com/news_categories-sitemap.xml"},
-                 {"https://www.novalnet.com/glossary_categories-sitemap.xml"}
+                 {"https://www.novalnet.com/post-sitemap.xml"},
+                 {"https://www.novalnet.com/page-sitemap.xml"}
 
         };
     }
