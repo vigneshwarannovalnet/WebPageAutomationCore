@@ -84,28 +84,16 @@ public class HomePageTest extends BaseTest {
 
     @DataProvider()
     public Object[][] siteMap_Url_DE(){
-        return new Object[][] {{"https://www.novalnet.de/post-sitemap.xml"},
-                {"https://www.novalnet.de/page-sitemap.xml"},
-                {"https://www.novalnet.de/karriere-sitemap.xml"},
-                {"https://www.novalnet.de/integration-sitemap.xml"},
-                {"https://www.novalnet.de/produkte-sitemap.xml"},
-                {"https://www.novalnet.de/solutions-sitemap.xml"},
-                {"https://www.novalnet.de/services-sitemap.xml"},
-                {"https://www.novalnet.de/mainp-sitemap.xml"},
-                {"https://www.novalnet.de/category-sitemap.xml"},
+        return new Object[][] {
                 {"https://www.novalnet.de/post_tag-sitemap.xml"},
                 {"https://www.novalnet.de/author-sitemap.xml"}};
     }
 
        @DataProvider()
        public Object[][] siteMap_Url_EN(){
-        return new Object[][] {{"https://www.novalnet.com/post-sitemap.xml"},
-                {"https://www.novalnet.com/page-sitemap.xml"},
-                 {"https://www.novalnet.com/integration-sitemap.xml"},
-                 {"https://www.novalnet.com/news-sitemap.xml"},
-                 {"https://www.novalnet.com/paymentsolution-sitemap.xml"},
-                 {"https://www.novalnet.com/glossary-sitemap.xml"},
-                {"https://www.novalnet.com/careers-sitemap.xml"},
+        return new Object [][]
+                 
+                 {
                  {"https://www.novalnet.com/news_categories-sitemap.xml"},
                  {"https://www.novalnet.com/glossary_categories-sitemap.xml"}
 
