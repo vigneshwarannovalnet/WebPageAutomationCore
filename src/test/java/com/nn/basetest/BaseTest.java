@@ -68,7 +68,7 @@ public class BaseTest  {
          //driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
             //driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait
         // driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(120)); // Script timeout
-            wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(120)));
+            wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(60)));
             assert driver != null : "Driver initialization failed!";
             driver.get().manage().window().maximize();
         }catch (Exception e){
