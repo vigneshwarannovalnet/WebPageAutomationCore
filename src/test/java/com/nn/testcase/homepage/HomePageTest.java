@@ -98,8 +98,15 @@ public class HomePageTest extends BaseTest {
         };
     }
 
+    public Object[][] siteMap_Url_DE(){
+        return new Object [][] {{"https://www.novalnet.de/post-sitemap.xml"},
+                {"https://www.novalnet.de/page-sitemap.xml"}};
+
+    }
+
       /* @DataProvider()
        public Object[][] siteMap_Url_EN(){
+<<<<<<< HEAD
         return new Object[][] {*//*{"https://www.novalnet.com/post-sitemap.xml"},
                 {"https://www.novalnet.com/page-sitemap.xml"},
                  {"https://www.novalnet.com/integration-sitemap.xml"},
@@ -109,6 +116,13 @@ public class HomePageTest extends BaseTest {
                 {"https://www.novalnet.com/careers-sitemap.xml"},
                  {"https://www.novalnet.com/news_categories-sitemap.xml"},*//*
                  {"https://www.novalnet.com/glossary_categories-sitemap.xml"}
+=======
+        return new Object [][]
+                 
+                 {
+                 {"https://www.novalnet.com/post-sitemap.xml"},
+                 {"https://www.novalnet.com/page-sitemap.xml"}
+>>>>>>> 6d1ad27a94c8d8ff0ca45eb33c5eab7cbb51d647
 
         };
     }*/
