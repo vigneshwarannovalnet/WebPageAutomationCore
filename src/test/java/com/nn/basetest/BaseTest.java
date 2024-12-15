@@ -363,7 +363,7 @@ public class BaseTest  {
     }
 
     private List<String> getAllNovalnetLinks() {
-        driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+        //driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         waitForAllElementLocated(By.tagName("a"));
         List<WebElement> allLinks = driver.get().findElements(By.tagName("a"));
         List<String> novalnetLinks = new ArrayList<>();
