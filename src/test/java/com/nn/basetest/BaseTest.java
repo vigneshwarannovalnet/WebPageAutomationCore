@@ -78,28 +78,7 @@ public class BaseTest  {
             throw new RuntimeException("Driver initialization failed", e);
         }
 
-         Capabilities capabilities = ((HasCapabilities) driver.get()).getCapabilities();
-System.out.println("Browser Name: " + capabilities.getBrowserName());
-System.out.println("Browser Version: " + capabilities.getBrowserVersion());
-
-String driverPath = SeleniumManager.getInstance().getDriverPath("chromedriver");
-        System.out.println("Driver Path: " + driverPath);
-         try {
-            // Path to your ChromeDriver binary (can be obtained from SeleniumManager or WebDriverManager)
-            
-            // Run the command to get the ChromeDriver version
-            Process process = Runtime.getRuntime().exec(driverPath + " --version");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);  // Output: ChromeDriver 113.0.5672.63
-            }
-            process.waitFor();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+         
     }
 
 
