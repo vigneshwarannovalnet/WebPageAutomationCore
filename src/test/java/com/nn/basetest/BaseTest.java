@@ -1,5 +1,6 @@
 package com.nn.basetest;
 
+import org.openqa.selenium.HasCapabilities;
 
 
 import org.apache.http.HttpResponse;
@@ -75,6 +76,9 @@ public class BaseTest  {
             System.err.println("Driver initialization failed: " + e.getMessage());
             throw new RuntimeException("Driver initialization failed", e);
         }
+         System.out.println("Browser Version: " + ((HasCapabilities) driver).getCapabilities().getBrowserVersion());
+System.out.println("Driver Version: " + ((HasCapabilities) driver).getCapabilities().getCapability("chrome.driverVersion"));
+
 
     }
 
