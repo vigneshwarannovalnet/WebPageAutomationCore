@@ -30,6 +30,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.manager.SeleniumManager;
 
 public class BaseTest  {
      private static final Lock lock = new ReentrantLock();
