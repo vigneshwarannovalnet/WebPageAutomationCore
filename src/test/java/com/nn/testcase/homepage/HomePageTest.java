@@ -2,6 +2,7 @@ package com.nn.testcase.homepage;
 import com.nn.basetest.BaseTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.openqa.selenium.HasCapabilities;
 
 import java.io.File;
 import java.io.IOException;
