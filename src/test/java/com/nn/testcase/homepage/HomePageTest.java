@@ -27,7 +27,7 @@ public class HomePageTest extends BaseTest {
         openURL(input);
         waitForTitleContains("XML Sitemap");
         checkAllLinks("EN");
-       //checkSublinks("EN");
+        checkSublinks("EN");
         
     }
 
@@ -98,7 +98,8 @@ public class HomePageTest extends BaseTest {
 
         };
     }
-
+    
+    @DataProvider()
     public Object[][] siteMap_Url_DE(){
         return new Object [][] {{"https://www.novalnet.de/post-sitemap.xml"},
                 {"https://www.novalnet.de/page-sitemap.xml"}
