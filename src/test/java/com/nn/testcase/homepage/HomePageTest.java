@@ -101,7 +101,17 @@ public class HomePageTest extends BaseTest {
 
     public Object[][] siteMap_Url_DE(){
         return new Object [][] {{"https://www.novalnet.de/post-sitemap.xml"},
-                {"https://www.novalnet.de/page-sitemap.xml"}};
+                {"https://www.novalnet.de/page-sitemap.xml"}
+                                {"https://www.novalnet.de/karriere-sitemap.xml"},
+                                {"https://www.novalnet.de/integration-sitemap.xml"},
+                                {"https://www.novalnet.de/produkte-sitemap.xml"},
+                                {"https://www.novalnet.de/solutions-sitemap.xml"},
+        {"https://www.novalnet.de/services-sitemap.xml"},
+        {"https://www.novalnet.de/mainp-sitemap.xml"},
+                                {"https://www.novalnet.de/category-sitemap.xml"},
+                                {"https://www.novalnet.de/post_tag-sitemap.xml"},
+                                {"https://www.novalnet.de/author-sitemap.xml"}
+    };
 
     }
 
