@@ -54,6 +54,7 @@ public class BaseTest  {
         try {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
+             SeleniumManager.getInstance().setup("chromedriver");
             ChromeOptions options = new ChromeOptions();
            options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
@@ -66,9 +67,7 @@ public class BaseTest  {
          options.addArguments("--disable-gpu");
              System.setProperty("webdriver.chrome.verboseLogging", "true");
             driver.set(new ChromeDriver(options));
-             // Retrieve the ChromeDriver path
-            String driverPath = SeleniumManager.getInstance().getDriverPath("chromedriver");
-            System.out.println("Driver Path: " + driverPath);
+             
             // Set a page load timeout and script timeout
          //driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
             //driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait
