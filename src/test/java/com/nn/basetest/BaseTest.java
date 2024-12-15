@@ -58,7 +58,7 @@ public class BaseTest  {
         try {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
-             SeleniumManager.getInstance().setup("chromedriver");
+             
             ChromeOptions options = new ChromeOptions();
            options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
