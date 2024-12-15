@@ -2,7 +2,6 @@ package com.nn.testcase.homepage;
 import com.nn.basetest.BaseTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.openqa.selenium.HasCapabilities;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,16 +24,11 @@ public class HomePageTest extends BaseTest {
 
     @Test(priority = 2, dataProvider ="siteMap_Url_EN",description = "Check whether the broken links are present or not in the homePage en site")
     public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
-       System.out.println("Browser Version: " + ((HasCapabilities) driver).getCapabilities().getBrowserVersion());
-System.out.println("Driver Version: " + ((HasCapabilities) driver).getCapabilities().getCapability("chrome.driverVersion"));
-
         openURL(input);
         waitForTitleContains("XML Sitemap");
         checkAllLinks("EN");
        //checkSublinks("EN");
-        System.out.println("Browser Version: " + ((HasCapabilities) driver).getCapabilities().getBrowserVersion());
-System.out.println("Driver Version: " + ((HasCapabilities) driver).getCapabilities().getCapability("chrome.driverVersion"));
-
+        
     }
 
    /* @Test(priority = 3,description = "Check whether the broken image are present or not in the homePage de site")
