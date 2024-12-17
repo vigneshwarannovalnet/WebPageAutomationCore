@@ -17,7 +17,7 @@ public class HomePageTest extends BaseTest {
         openURL(input);
         waitForTitleContains("XML Sitemap");
         checkAllLinks("DE");
-        //checkSublinks("DE");
+        checkSublinks("DE");
     }
 
 
@@ -27,7 +27,7 @@ public class HomePageTest extends BaseTest {
         openURL(input);
         waitForTitleContains("XML Sitemap");
         checkAllLinks("EN");
-        //checkSublinks("EN");
+        checkSublinks("EN");
         
     }
 
@@ -105,7 +105,15 @@ public class HomePageTest extends BaseTest {
 
     @DataProvider()
     public Object[][] siteMap_Url_EN(){
-        return new Object[][] {{"https://www.novalnet.com/news_categories-sitemap.xml"}
+        return new Object[][] {{"https://www.novalnet.com/post-sitemap.xml"},
+                {"https://www.novalnet.com/page-sitemap.xml"},
+                {"https://www.novalnet.com/integration-sitemap.xml"},
+                {"https://www.novalnet.com/news-sitemap.xml"},
+                {"https://www.novalnet.com/paymentsolution-sitemap.xml"},
+                {"https://www.novalnet.com/glossary-sitemap.xml"},
+                {"https://www.novalnet.com/careers-sitemap.xml"},
+                {"https://www.novalnet.com/news_categories-sitemap.xml"},
+                {"https://www.novalnet.com/glossary_categories-sitemap.xml"}
 
         };
     }
