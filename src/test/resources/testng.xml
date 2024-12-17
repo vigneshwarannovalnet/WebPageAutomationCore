@@ -11,7 +11,7 @@
             </class>
         </classes>
     </test>
-     <test name="DE_HomePageTest">
+     <test name="EN_HomePageTest">
 
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
