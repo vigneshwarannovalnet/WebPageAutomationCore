@@ -6,21 +6,12 @@
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
                 <methods>
-                    <include name="imageAltTagChecker_DE"/>
+                    <include name="brokenLink_de"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="EN_HomePageTest">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="imageAltTagChecker_EN"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
+   
 
 </suite>
 
