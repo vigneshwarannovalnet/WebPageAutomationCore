@@ -6,7 +6,7 @@
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
                 <methods>
-                    <include name="brokenLink_de"/>
+                    <include name="brokenLink_en"/>
                 </methods>
             </class>
         </classes>
