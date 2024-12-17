@@ -11,6 +11,16 @@
             </class>
         </classes>
     </test>
+     <test name="DE_HomePageTest">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenLink_de"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
    
 
 </suite>
