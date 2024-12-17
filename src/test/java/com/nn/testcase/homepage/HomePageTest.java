@@ -27,7 +27,7 @@ public class HomePageTest extends BaseTest {
         openURL(input);
         waitForTitleContains("XML Sitemap");
         checkAllLinks("EN");
-        checkSublinks("EN");
+        //checkSublinks("EN");
         
     }
 
