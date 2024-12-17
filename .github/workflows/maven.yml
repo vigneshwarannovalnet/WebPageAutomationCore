@@ -36,7 +36,6 @@ jobs:
         ls -lh src/test/resources/DE_HomePage.xlsx
         echo "Checking if the EN file exists and is not empty"
         ls -lh src/test/resources/EN_HomePage.xlsx
-
     # Step 6: Upload the generated XLSX files (if they exist)
     - name: Upload XLSX files
       if: always() # Ensure this step runs even if tests fail
