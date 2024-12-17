@@ -40,14 +40,20 @@ public class BaseTest  {
     private static ThreadLocal<ChromeDriver> driver = new ThreadLocal<>();
     private static ThreadLocal<WebDriverWait> wait = new ThreadLocal<>();
     private Set<String> checked200UrlS_DE = new HashSet<>();
-
+    private Set<String> checkedImage200UrlS_DE = new HashSet<>();
+    private Set<String> checkedImage200UrlS_EN = new HashSet<>();
     private Set<String> checked200UrlS_EN = new HashSet<>();
-    private Set<String> checkedURLs = new CopyOnWriteArraySet<>();
+
+    private Set<String> H1Tag_checkedURLs_DE = new HashSet<>();
+    private Set<String> H1Tag_checkedURLs_EN = new HashSet<>();
+    private Set<String>  imgALT_DE_checkedURLs = new HashSet<>();
+    private Set<String>  imgALT_EN_checkedURLs = new HashSet<>();
     public String linkchecksheetname = LocalDate.now()+"_BROKENLINK";
     public String imagechecksheetname =LocalDate.now()+"_BROKENIMAGE";
     public String H1tagchecksheetname = LocalDate.now()+"H1TAGS";
-
+    public String metachecksheetname ="META-CHECK";
     public String imagealtchecksheetname = LocalDate.now()+"IMG_ALT_TAGS";
+    public String canonicalTagssheetname ="canonical-CHECK_DE";
     private AtomicInteger count = new AtomicInteger(0);
 
     private static File DE_xl = new File(System.getProperty("user.dir"),"/src/test/resources/DE_HomePage.xlsx");
@@ -58,7 +64,7 @@ public class BaseTest  {
         try {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
-             System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+            // System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
             ChromeOptions options = new ChromeOptions();
            options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
@@ -169,6 +175,104 @@ public class BaseTest  {
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 } else {
                     writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
+                }
+            }
+        }
+
+    }
+    private void verifyImageLink_DE(String sourceUrl, String url ,String sheetname) throws IOException, GeneralSecurityException {
+
+        boolean result =false;
+        for(String successURs :checkedImage200UrlS_DE){
+            result = successURs.equals(url);
+            if (result==true)
+                break;
+        }
+        if(result!=true){
+            int statusCode = 0;
+            String statusMessage = null;
+            int currentCount = count.incrementAndGet();
+
+            try {
+                RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000) // 30 seconds connect
+                        // timeout
+                        .setSocketTimeout(30 * 1000) // 30 seconds socket timeout
+                        .build();
+
+                HttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
+                HttpGet request = new HttpGet(url);
+                HttpResponse response = httpClient.execute(request);
+                statusCode = response.getStatusLine().getStatusCode();
+                StatusLine statusLine = response.getStatusLine();
+                statusMessage = statusLine.getReasonPhrase();
+
+                if (statusCode == 200) {
+                    System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
+                    if(checkedImage200UrlS_DE.add(url)){
+                        writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    }
+
+                } else {
+                    writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Link is broken (HTTP response code: "
+                            + statusCode + ")");
+                }
+            } catch (Exception e) {
+                if (statusCode == 0) {
+                    writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
+                } else {
+                    writeDataToSheet_DE(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
+                }
+            }
+        }
+
+    }
+    private void verifyImageLink_EN(String sourceUrl, String url ,String sheetname) throws IOException, GeneralSecurityException {
+
+        boolean result =false;
+        for(String successURs :checkedImage200UrlS_EN){
+            result = successURs.equals(url);
+            if (result==true)
+                break;
+        }
+        if(result!=true){
+            int statusCode = 0;
+            String statusMessage = null;
+            int currentCount = count.incrementAndGet();
+
+            try {
+                RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(30 * 1000) // 30 seconds connect
+                        // timeout
+                        .setSocketTimeout(30 * 1000) // 30 seconds socket timeout
+                        .build();
+
+                HttpClient httpClient = HttpClients.custom().setDefaultRequestConfig(requestConfig).build();
+                HttpGet request = new HttpGet(url);
+                HttpResponse response = httpClient.execute(request);
+                statusCode = response.getStatusLine().getStatusCode();
+                StatusLine statusLine = response.getStatusLine();
+                statusMessage = statusLine.getReasonPhrase();
+
+                if (statusCode == 200) {
+                    System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
+                    if(checkedImage200UrlS_EN.add(url)){
+                        writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    }
+
+                } else {
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Link is broken (HTTP response code: "
+                            + statusCode + ")");
+                }
+            } catch (Exception e) {
+                if (statusCode == 0) {
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), DE_xl);
+                    System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
+                } else {
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 }
             }
@@ -459,8 +563,8 @@ public class BaseTest  {
         System.out.println("Open URL: " + url);
     }
 
-   /* public void verifyBrokenImages(String  URL,String lang) throws GeneralSecurityException, IOException {
-        List<String> novalnetLinks = getAllNovalnetLinks(URL);
+    public void verifyBrokenImages(String lang) throws GeneralSecurityException, IOException {
+        List<String> novalnetLinks = getAllNovalnetLinks();
         for (String url : novalnetLinks) {
             openURL(url);
             waitForAllElementLocated(By.tagName("img"));
@@ -470,9 +574,11 @@ public class BaseTest  {
                 if (imageurl != null && (imageurl.contains("https") || imageurl.contains("http"))) {
 
                     if (lang.equals("DE")){
-                        verifyLink_DE(url, imageurl, imagechecksheetname);
-                    }else {
-                        verifyLink_EN(url, imageurl, imagechecksheetname);
+                        verifyImageLink_DE(url, imageurl, imagechecksheetname);
+                    }else{
+                        verifyImageLink_EN(url,imageurl,imagechecksheetname);
+                    }
+
                     }
 
 
@@ -481,27 +587,35 @@ public class BaseTest  {
 
         }
 
-    }*/
-    /*public void verifyH1Tags(String lang) throws IOException, GeneralSecurityException {
+    public void verifyH1Tags_EN() throws IOException, GeneralSecurityException {
         List<String> novalnetLinks = getAllNovalnetLinks();
-        List<List<Object>> dataToWrite = new ArrayList<>();
 
         for (String url : novalnetLinks) {
             openURL(url);
-            if (url != null && !url.isEmpty() && url.contains("novalnet") && checkedURLs.add(url)) {
+            if (url != null && !url.isEmpty() && url.contains("novalnet") && H1Tag_checkedURLs_EN.add(url)) {
                 waitForAllElementLocated(By.xpath("//h1"));
                 List<WebElement> h1Tags = driver.get().findElements(By.xpath("//h1"));
                 String lengthCondition = (h1Tags.size()<=1) ? "Yes" : "No";
-                if(lang.equals("DE")){
-                    writeDataToSheet_DE(H1tagchecksheetname, new ArrayList<Object>(Arrays.asList(url, h1Tags.size(), lengthCondition)), DE_xl);
+                writeDataToSheet_EN(H1tagchecksheetname, new ArrayList<Object>(Arrays.asList(url, h1Tags.size(), lengthCondition)), EN_xl);
                 }
-               else {
-                    writeDataToSheet_EN(H1tagchecksheetname, new ArrayList<Object>(Arrays.asList(url, h1Tags.size(), lengthCondition)), EN_xl);
-                }
-            }
         }
 
-    }*/
+    }
+
+    public void verifyH1Tags_DE() throws IOException, GeneralSecurityException {
+        List<String> novalnetLinks = getAllNovalnetLinks();
+
+        for (String url : novalnetLinks) {
+            openURL(url);
+            if (url != null && !url.isEmpty() && url.contains("novalnet") && H1Tag_checkedURLs_DE.add(url)) {
+                waitForAllElementLocated(By.xpath("//h1"));
+                List<WebElement> h1Tags = driver.get().findElements(By.xpath("//h1"));
+                String lengthCondition = (h1Tags.size()<=1) ? "Yes" : "No";
+                    writeDataToSheet_DE(H1tagchecksheetname, new ArrayList<Object>(Arrays.asList(url, h1Tags.size(), lengthCondition)), DE_xl);
+                }
+            }
+
+    }
 
     public static void waitForPageLoad() {
         WebDriverWait wait = new WebDriverWait(driver.get(), Duration.ofSeconds(120));
@@ -528,14 +642,14 @@ public class BaseTest  {
     public static JavascriptExecutor getJsExecutor() {
         return (JavascriptExecutor)driver.get();
     }
-   /* public void verifyImageAltAttributes(String lang) throws GeneralSecurityException, IOException {
+    public void verifyImageAltAttributes_DE() throws GeneralSecurityException, IOException {
         Set<String> urlsToSkip = readSkipURLsFromExcel(skipped_URLs_xl);
         String altValue=null;
         List<String> novalnetLinks = getAllNovalnetLinks();
         List<List<Object>> dataToWrite = new ArrayList<>();
         for(String novalnetURL:novalnetLinks) {
             openURL(novalnetURL);
-            if (checkedURLs.add(novalnetURL)) {
+            if (imgALT_DE_checkedURLs.add(novalnetURL)) {
                 waitForAllElementLocated(By.xpath("//img"));
                 List<WebElement> images = driver.get().findElements(By.xpath("//img"));
                 for (WebElement image : images) {
@@ -548,16 +662,39 @@ public class BaseTest  {
                     if(altValue.isEmpty()){
                         altValue="NIL";
                     }
-                   if (lang.equals("DE")){
-                    writeDataToSheet_DE(imagealtchecksheetname, new ArrayList<Object>(Arrays.asList(novalnetURL, "YES", imageURL, altValue)), DE_xl);
-                }
-                   else {
-                       writeDataToSheet_DE(imagealtchecksheetname, new ArrayList<Object>(Arrays.asList(novalnetURL, "YES", imageURL, altValue)), EN_xl);
-                   }
+                       writeDataToSheet_DE(imagealtchecksheetname, new ArrayList<Object>(Arrays.asList(novalnetURL, "YES", imageURL, altValue)), DE_xl);
+
             }
         }
     }
-    }*/
+    }
+
+    public void verifyImageAltAttributes_EN() throws GeneralSecurityException, IOException {
+        Set<String> urlsToSkip = readSkipURLsFromExcel(skipped_URLs_xl);
+        String altValue=null;
+        List<String> novalnetLinks = getAllNovalnetLinks();
+        List<List<Object>> dataToWrite = new ArrayList<>();
+        for(String novalnetURL:novalnetLinks) {
+            openURL(novalnetURL);
+            if (imgALT_EN_checkedURLs.add(novalnetURL)) {
+                waitForAllElementLocated(By.xpath("//img"));
+                List<WebElement> images = driver.get().findElements(By.xpath("//img"));
+                for (WebElement image : images) {
+                    String imageURL = image.getAttribute("src");
+                    altValue = image.getAttribute("alt");
+
+                    if (urlsToSkip.contains(imageURL)) {
+                        continue;
+                    }
+                    if(altValue.isEmpty()){
+                        altValue="NIL";
+                    }
+                    writeDataToSheet_DE(imagealtchecksheetname, new ArrayList<Object>(Arrays.asList(novalnetURL, "YES", imageURL, altValue)), EN_xl);
+
+                }
+            }
+        }
+    }
     // Method to read URLs to skip from an Excel file
     private static Set<String> readSkipURLsFromExcel(File file) throws IOException {
         Set<String> skipURLs = new HashSet<>();
@@ -576,6 +713,100 @@ public class BaseTest  {
             }
         }
         return skipURLs;
+    }
+    public void metaDataCheck_DE() throws IOException, GeneralSecurityException {
+        List<String> urls = getAllNovalnetLinks();
+        for(String url:urls) {
+            openURL(url);
+            String value = null;
+            List<WebElement> metaTags = driver.get().findElements(By.tagName("meta"));
+            WebElement lastIndexTag =metaTags.get(metaTags.size() - 1);
+            String lastIndexTagValue=lastIndexTag.getAttribute("name").replaceAll("\\s", "");
+            for (WebElement metTag : metaTags) {
+                value = metTag.getAttribute("name").replaceAll("\\s", "");
+                if (value.equalsIgnoreCase("description")) {
+                    String xpath = value.equals("description") ? "//meta[@name='description']" : "//meta[@name='Description']";
+                    WebElement descriptionMetaTag = driver.get().findElement(By.xpath(xpath));
+                    String description = descriptionMetaTag.getAttribute("content");
+                    String lengthCondition = (description.length()<=155) ? "Yes" : "No";
+                    writeDataToSheet_DE(metachecksheetname, new ArrayList<Object>(Arrays.asList(url, "YES", description, value, description.length(), lengthCondition)), DE_xl);
+                    break;
+
+                } else if (value.equals(lastIndexTagValue)) {
+                    writeDataToSheet_DE(metachecksheetname, new ArrayList<Object>(Arrays.asList(url, "NO", "N/A", "N/A", "N/A")), DE_xl);
+                }
+            }
+        }
+    }
+    public void metaDataCheck_EN() throws IOException, GeneralSecurityException {
+        List<String> urls = getAllNovalnetLinks();
+        for(String url:urls) {
+            openURL(url);
+            String value = null;
+            List<WebElement> metaTags = driver.get().findElements(By.tagName("meta"));
+            WebElement lastIndexTag =metaTags.get(metaTags.size() - 1);
+            String lastIndexTagValue=lastIndexTag.getAttribute("name").replaceAll("\\s", "");
+            for (WebElement metTag : metaTags) {
+                value = metTag.getAttribute("name").replaceAll("\\s", "");
+                if (value.equalsIgnoreCase("description")) {
+                    String xpath = value.equals("description") ? "//meta[@name='description']" : "//meta[@name='Description']";
+                    WebElement descriptionMetaTag = driver.get().findElement(By.xpath(xpath));
+                    String description = descriptionMetaTag.getAttribute("content");
+                    String lengthCondition = (description.length()<=155) ? "Yes" : "No";
+                    writeDataToSheet_DE(metachecksheetname, new ArrayList<Object>(Arrays.asList(url, "YES", description, value, description.length(), lengthCondition)), EN_xl);
+                    break;
+
+                } else if (value.equals(lastIndexTagValue)) {
+                    writeDataToSheet_DE(metachecksheetname, new ArrayList<Object>(Arrays.asList(url, "NO", "N/A", "N/A", "N/A")), EN_xl);
+                }
+            }
+        }
+    }
+    public void canonicalTags_DE() throws IOException {
+        List<String> novalLinks = getAllNovalnetLinks();
+        for (String novalneturl : novalLinks) {
+            int currentCount = count.incrementAndGet();
+            openURL(novalneturl);
+            waitForAllElementLocated(By.xpath("//link[@rel='canonical']"));
+            List<WebElement> canonicalTags = driver.get().findElements((By.xpath("//link[@rel='canonical']")));
+            int a  =canonicalTags.size() ;
+            if (a==1){
+                String value = canonicalTags.get(0).getAttribute("href");
+                String valuecondition = value.equals(novalneturl) ? "Self referrer tag = Yes" : "Self referrer tag = No";
+                writeDataToSheet_DE(canonicalTagssheetname, Arrays.asList(novalneturl, "Yes", valuecondition), DE_xl);
+            }
+            else{
+                String valuecondition = (a==0) ? "This page does not have a canonical tag " : "This page have more than 1 canonical tag";
+                writeDataToSheet_DE(canonicalTagssheetname, Arrays.asList(novalneturl, "abnormal", valuecondition), DE_xl);
+            }
+
+
+        }
+
+
+    }
+    public void canonicalTags_EN() throws IOException {
+        List<String> novalLinks = getAllNovalnetLinks();
+        for (String novalneturl : novalLinks) {
+            int currentCount = count.incrementAndGet();
+            openURL(novalneturl);
+            waitForAllElementLocated(By.xpath("//link[@rel='canonical']"));
+            List<WebElement> canonicalTags = driver.get().findElements((By.xpath("//link[@rel='canonical']")));
+            int a  =canonicalTags.size() ;
+            if (a==1){
+                String value = canonicalTags.get(0).getAttribute("href");
+                String valuecondition = value.equals(novalneturl) ? "Self referrer tag = Yes" : "Self referrer tag = No";
+                writeDataToSheet_DE(canonicalTagssheetname, Arrays.asList(novalneturl, "Yes", valuecondition), EN_xl);
+            }
+            else{
+                String valuecondition = (a==0) ? "This page does not have a canonical tag " : "This page have more than 1 canonical tag";
+                writeDataToSheet_DE(canonicalTagssheetname, Arrays.asList(novalneturl, "abnormal", valuecondition), EN_xl);
+            }
+
+
+        }
+
+
     }
 }
 

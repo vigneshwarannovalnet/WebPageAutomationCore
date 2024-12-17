@@ -31,54 +31,73 @@ public class HomePageTest extends BaseTest {
         
     }
 
-   /* @Test(priority = 3,description = "Check whether the broken image are present or not in the homePage de site")
-    public void brokenImage_DE() throws GeneralSecurityException, IOException {
-       verifyBrokenImages("https://www.novalnet.de/sitemap_index.xml","DE");
+    @Test(priority = 3,dataProvider = "siteMap_Url_DE",description = "Check whether the broken image are present or not in the homePage de site")
+    public void brokenImage_DE(String input) throws GeneralSecurityException, IOException {
+        openURL(input);
+        waitForTitleContains("XML Sitemap");
+        verifyBrokenImages("DE");
     }
 
-   @Test(priority = 4,description = "Check whether the broken image are present or not in the homePage en site")
-    public void brokenImage_EN() throws GeneralSecurityException, IOException {
-       verifyBrokenImages("https://www.novalnet.com/sitemap_index.xml","EN");
-    }*/
+   @Test(priority = 4,dataProvider = "siteMap_Url_EN",description = "Check whether the broken image are present or not in the homePage en site")
+    public void brokenImage_EN(String input) throws GeneralSecurityException, IOException {
+       openURL(input);
+       waitForTitleContains("XML Sitemap");
+       verifyBrokenImages("EN");
+    }
 
-    //@Test(priority = 5,dataProvider = "siteMap_Url_DE",description = "verify the more than one H1 tag in the Homepage DE site ")
+    @Test(priority = 5,dataProvider = "siteMap_Url_DE",description = "verify the more than one H1 tag in the Homepage DE site ")
     public void H1TagChecker_DE(String input) throws IOException, GeneralSecurityException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-     //   verifyH1Tags("DE");
+        verifyH1Tags_DE();
     }
-
-   // @Test(priority = 6,dataProvider = "siteMap_Url_EN",description = "verify the more than one H1 tag in the Homepage DE site ")
+    @Test(priority = 6,dataProvider = "siteMap_Url_EN",description = "verify the more than one H1 tag in the Homepage DE site ")
     public void H1TagChecker_EN(String input) throws IOException, GeneralSecurityException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-     //   verifyH1Tags("EN");
+        verifyH1Tags_EN();
     }
 
-    //@Test(priority = 7,dataProvider = "siteMap_Url_DE",description = "Verify images are mentioned in alt tag")
+
+    @Test(priority = 7,dataProvider = "siteMap_Url_DE",description = "Verify images are mentioned in alt tag")
     public void imageAltTagChecker_DE(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-       // verifyImageAltAttributes("DE");
+        verifyImageAltAttributes_DE();
     }
 
-    //@Test(priority = 8,dataProvider = "siteMap_Url_EN",description = "Verify images are mentioned in alt tag")
+    @Test(priority = 8,dataProvider = "siteMap_Url_EN",description = "Verify images are mentioned in alt tag")
     public void imageAltTagChecker_EN(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
-       // verifyImageAltAttributes("EN");
+        verifyImageAltAttributes_EN();
     }
 
-   // @Test(priority = 4,dataProvider = "siteMap_Url",description = "gffdgd")
-    public void verifyMetaData(String input) throws IOException, GeneralSecurityException {
-       // DriverActions.openURL(input);
-      //  metaDataCheck();
+    @Test(priority = 9,dataProvider = "siteMap_Url_DE",description = "Verify meta tags for DE websites")
+    public void verifyMetaData_DE(String input) throws IOException, GeneralSecurityException {
+        openURL(input);
+        waitForTitleContains(("XML Sitemap"));
+        metaDataCheck_DE();
     }
-   // @Test(priority = 5,dataProvider = "siteMap_Url",description = "gffdgd")
-    public void Canonicalckeck(String input) throws IOException, GeneralSecurityException {
-       // DriverActions.openURL(input);
-       // DriverActions.waitForTitleContains(("XML Sitemap"));
-       // canonicalTags();
+
+    @Test(priority = 10,dataProvider = "siteMap_Url_EN",description = "Verify meta tags for EN websites")
+    public void verifyMetaData_EN(String input) throws IOException, GeneralSecurityException {
+        openURL(input);
+        waitForTitleContains(("XML Sitemap"));
+        metaDataCheck_EN();
+    }
+    @Test(priority = 11,dataProvider = "siteMap_Url_DE",description = "Verify canonical tags for DE websites")
+    public void Canonicalckeck_DE(String input) throws IOException, GeneralSecurityException {
+         openURL(input);
+         waitForTitleContains(("XML Sitemap"));
+         canonicalTags_DE();
+    }
+
+    @Test(priority = 5,dataProvider = "siteMap_Url_EN",description = "Verify canonical tags for EN websites")
+    public void Canonicalckeck_EN(String input) throws IOException, GeneralSecurityException {
+        openURL(input);
+        waitForTitleContains(("XML Sitemap"));
+        canonicalTags_EN();
     }
 
 
@@ -102,13 +121,13 @@ public class HomePageTest extends BaseTest {
     @DataProvider()
     public Object[][] siteMap_Url_DE(){
         return new Object [][] {{"https://www.novalnet.de/post-sitemap.xml"},
-                {"https://www.novalnet.de/page-sitemap.xml"},
+                                {"https://www.novalnet.de/page-sitemap.xml"},
                                 {"https://www.novalnet.de/karriere-sitemap.xml"},
                                 {"https://www.novalnet.de/integration-sitemap.xml"},
                                 {"https://www.novalnet.de/produkte-sitemap.xml"},
                                 {"https://www.novalnet.de/solutions-sitemap.xml"},
-        {"https://www.novalnet.de/services-sitemap.xml"},
-        {"https://www.novalnet.de/mainp-sitemap.xml"},
+                                {"https://www.novalnet.de/services-sitemap.xml"},
+                                {"https://www.novalnet.de/mainp-sitemap.xml"},
                                 {"https://www.novalnet.de/category-sitemap.xml"},
                                 {"https://www.novalnet.de/post_tag-sitemap.xml"},
                                 {"https://www.novalnet.de/author-sitemap.xml"}
@@ -116,33 +135,7 @@ public class HomePageTest extends BaseTest {
 
     }
 
-      /* @DataProvider()
-       public Object[][] siteMap_Url_EN(){
-<<<<<<< HEAD
-        return new Object[][] {*//*{"https://www.novalnet.com/post-sitemap.xml"},
-                {"https://www.novalnet.com/page-sitemap.xml"},
-                 {"https://www.novalnet.com/integration-sitemap.xml"},
-                 {"https://www.novalnet.com/news-sitemap.xml"},
-                 {"https://www.novalnet.com/paymentsolution-sitemap.xml"},
-                 {"https://www.novalnet.com/glossary-sitemap.xml"},
-                {"https://www.novalnet.com/careers-sitemap.xml"},
-                 {"https://www.novalnet.com/news_categories-sitemap.xml"},*//*
-                 {"https://www.novalnet.com/glossary_categories-sitemap.xml"}
-=======
-        return new Object [][]
-                 
-                 {
-                 {"https://www.novalnet.com/post-sitemap.xml"},
-                 {"https://www.novalnet.com/page-sitemap.xml"}
->>>>>>> 6d1ad27a94c8d8ff0ca45eb33c5eab7cbb51d647
 
-        };
-    }*/
-    /* @DataProvider()
-        public Object[][] siteMap_Url_EN () {
-            return convertListToDataProvider(get_siteMap_urls("https://www.novalnet.com/sitemap_index.xml"));
-        }
-        */
 
 
 
