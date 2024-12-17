@@ -3,7 +3,7 @@ name: Java CI with Maven
 on:
   schedule:
     - cron: "30 0 * * *"  # 6:00 AM IST
-  workflow_dispatch: # Allows manual trigger of the workflow
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,30 +18,37 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: '11'
-        distribution: 'temurin' # Temurin is the recommended OpenJDK distribution
-        cache: maven # Cache Maven dependencies
+        distribution: 'temurin'
+        cache: maven
 
-    # Step 3: Add permissions to files (optional for debugging file permissions)
-    - name: Set write permissions
-      run: chmod -R u+w src/test/resources/
+    # Step 3: Run Maven test
+    - name: Run Maven Test
+      run: |
+        mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml | tee build.log
+      shell: bash
 
-    # Step 4: Run the specific Maven test
-    - name: Run Specific Test
-      run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
-
-    # Step 5: Debug the DE and EN XLSX files to ensure they were written
+    # Step 4: Debug the generated XLSX files
     - name: Debug the XLSX files
       run: |
         echo "Checking if the DE file exists and is not empty"
         ls -lh src/test/resources/DE_HomePage.xlsx
         echo "Checking if the EN file exists and is not empty"
         ls -lh src/test/resources/EN_HomePage.xlsx
-    # Step 6: Upload the generated XLSX files (if they exist)
-    - name: Upload XLSX files
+
+    # Step 5: Upload Test Results and Logs
+    - name: Upload Test Results and Logs
       if: always() # Ensure this step runs even if tests fail
       uses: actions/upload-artifact@v3
       with:
-        name: test-results
+        name: test-results-and-logs
         path: |
           src/test/resources/DE_HomePage.xlsx
           src/test/resources/EN_HomePage.xlsx
+          build.log
+
+    # Step 6: Print Artifact URL
+    - name: Generate Artifact Download URL
+      if: always()
+      run: |
+        echo "Artifacts are available here:"
+        echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
