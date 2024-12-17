@@ -21,23 +21,15 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    # Step 3: Run Maven test
-    - name: Run Maven Test
+    # Step 3: Run Maven Test and Capture Logs
+    - name: Run Maven Test with Logs
       run: |
         mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml | tee build.log
       shell: bash
 
-    # Step 4: Debug the generated XLSX files
-    - name: Debug the XLSX files
-      run: |
-        echo "Checking if the DE file exists and is not empty"
-        ls -lh src/test/resources/DE_HomePage.xlsx
-        echo "Checking if the EN file exists and is not empty"
-        ls -lh src/test/resources/EN_HomePage.xlsx
-
-    # Step 5: Upload Test Results and Logs
+    # Step 4: Upload Artifacts
     - name: Upload Test Results and Logs
-      if: always() # Ensure this step runs even if tests fail
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: test-results-and-logs
@@ -46,9 +38,21 @@ jobs:
           src/test/resources/EN_HomePage.xlsx
           build.log
 
-    # Step 6: Print Artifact URL
-    - name: Generate Artifact Download URL
+    # Step 5: Generate Artifact Download URL
+    - name: Generate Artifact Download Link
       if: always()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "Artifacts are available here:"
-        echo "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        echo "Fetching artifacts..."
+        ARTIFACT_URL=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+        "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
+        | jq -r '.artifacts[] | select(.name=="test-results-and-logs") | .archive_download_url')
+
+        if [ -z "$ARTIFACT_URL" ]; then
+          echo "Failed to fetch artifact URL."
+          exit 1
+        fi
+        
+        echo "Artifact download link (no sign-in required):"
+        echo "$ARTIFACT_URL"
