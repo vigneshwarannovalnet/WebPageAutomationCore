@@ -64,7 +64,7 @@ public class BaseTest  {
         try {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
-             System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+           //  System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
             ChromeOptions options = new ChromeOptions();
            options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
@@ -85,7 +85,7 @@ public class BaseTest  {
             wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(60)));
             assert driver != null : "Driver initialization failed!";
             driver.get().manage().window().maximize();
-            System.out.println("Driver launched");
+            System.out.println("Browser launched successfully");
         }catch (Exception e){
             System.err.println("Driver initialization failed: " + e.getMessage());
             throw new RuntimeException("Driver initialization failed", e);
