@@ -21,7 +21,26 @@
             </class>
         </classes>
     </test>
-   
+   <test name="brokenImage_DE">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenImage_DE"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+   <test name="brokenImage_EN">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenImage_EN"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 
 </suite>
 
