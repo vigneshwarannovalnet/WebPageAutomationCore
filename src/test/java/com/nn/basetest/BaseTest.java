@@ -260,20 +260,20 @@ public class BaseTest  {
                 if (statusCode == 200) {
                     System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
                     if(checkedImage200UrlS_EN.add(url)){
-                        writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                        writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     }
 
                 } else {
-                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Link is broken (HTTP response code: "
                             + statusCode + ")");
                 }
             } catch (Exception e) {
                 if (statusCode == 0) {
-                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), DE_xl);
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), EN_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 } else {
-                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 }
             }
