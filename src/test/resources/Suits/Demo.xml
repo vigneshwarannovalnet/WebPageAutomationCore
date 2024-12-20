@@ -8,6 +8,8 @@
                 <methods>
                     <include name="brokenLink_de"/>
                 </methods>
+
+
             </class>
         </classes>
     </test>
@@ -17,106 +19,6 @@
             <class name="com.nn.testcase.homepage.HomePageTest">
                 <methods>
                     <include name="brokenLink_en"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="brokenImage_DE">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="brokenImage_DE"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="brokenImage_EN">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="brokenImage_EN"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="H1TagChecker_DE">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="H1TagChecker_DE"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="H1TagChecker_EN">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="H1TagChecker_EN"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="imageAltTagChecker_DE">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="imageAltTagChecker_DE"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="imageAltTagChecker_EN">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="imageAltTagChecker_EN"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="verifyMetaData_DE">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="verifyMetaData_DE"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="verifyMetaData_DE">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="verifyMetaData_EN"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Canonicalckeck_DE">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="Canonicalckeck_DE"/>
-                </methods>
-            </class>
-        </classes>
-    </test>
-    <test name="Canonicalckeck_EN">
-
-        <classes>
-            <class name="com.nn.testcase.homepage.HomePageTest">
-                <methods>
-                    <include name="Canonicalckeck_EN"/>
                 </methods>
             </class>
         </classes>

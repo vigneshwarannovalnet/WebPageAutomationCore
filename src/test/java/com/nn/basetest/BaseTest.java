@@ -59,12 +59,15 @@ public class BaseTest  {
     private static File DE_xl = new File(System.getProperty("user.dir"),"/src/test/resources/DE_HomePage.xlsx");
     private static File EN_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
     private static File skipped_URLs_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
+    public static final boolean github = Boolean.parseBoolean(System.getProperty("HEADLESS"));
     @BeforeTest
     public void createDriver(){
         try {
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
-           //  System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+            if(github){
+                System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+            }
             ChromeOptions options = new ChromeOptions();
            options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");

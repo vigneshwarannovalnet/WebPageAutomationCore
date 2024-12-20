@@ -1,22 +1,22 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 
 <suite name="HomePageTestSuite" parallel="tests" thread-count="4">
-   <test name="verifyMetaData_DE">
+   <test name="Canonicalckeck_DE">
 
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
                 <methods>
-                    <include name="verifyMetaData_DE"/>
+                    <include name="Canonicalckeck_DE"/>
                 </methods>
             </class>
         </classes>
     </test>
-    <test name="verifyMetaData_EN">
+    <test name="Canonicalckeck_EN">
 
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
                 <methods>
-                    <include name="verifyMetaData_EN"/>
+                    <include name="Canonicalckeck_EN"/>
                 </methods>
             </class>
         </classes>

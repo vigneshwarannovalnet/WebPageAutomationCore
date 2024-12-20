@@ -91,7 +91,7 @@
             </class>
         </classes>
     </test>
-    <test name="verifyMetaData_DE">
+    <test name="verifyMetaData_EN">
 
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">

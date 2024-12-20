@@ -93,7 +93,7 @@ public class HomePageTest extends BaseTest {
          canonicalTags_DE();
     }
 
-    @Test(priority = 5,dataProvider = "siteMap_Url_EN",description = "Verify canonical tags for EN websites")
+    @Test(priority = 12,dataProvider = "siteMap_Url_EN",description = "Verify canonical tags for EN websites")
     public void Canonicalckeck_EN(String input) throws IOException, GeneralSecurityException {
         openURL(input);
         waitForTitleContains(("XML Sitemap"));
