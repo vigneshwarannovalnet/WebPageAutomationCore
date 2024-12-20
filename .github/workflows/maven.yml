@@ -27,7 +27,7 @@ jobs:
         run: chmod -R u+w src/test/resources/
 
       # Step 4: Run the specific Maven test
-      - name: Run Specific Test
+      - name: Maven Test
         run: mvn clean test -DsuiteXmlFile=src/test/resources/Suits/broken-link-and-image-tests.xml -DGITHUB=true -DHEADLESS=true
 
       # Step 5: Debug the DE and EN XLSX files to ensure they were written
