@@ -59,17 +59,20 @@ public class BaseTest  {
     private static File DE_xl = new File(System.getProperty("user.dir"),"/src/test/resources/DE_HomePage.xlsx");
     private static File EN_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
     private static File skipped_URLs_xl = new File(System.getProperty("user.dir"),"/src/test/resources/EN_HomePage.xlsx");
-    public static final boolean github = Boolean.parseBoolean(System.getProperty("HEADLESS"));
+    public static final boolean GITHUB = Boolean.parseBoolean(System.getProperty("GITHUB"));
+    public static final boolean HEADLESS = Boolean.parseBoolean(System.getProperty("HEADLESS"));
     @BeforeTest
     public void createDriver(){
         try {
+            ChromeOptions options = new ChromeOptions();
             System.out.println("Launching Chrome Driver...");
             System.setProperty("webdriver.http.factory", "jdk-http-client");
-            if(github){
+            if(GITHUB){
                 System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
             }
-            ChromeOptions options = new ChromeOptions();
-           options.addArguments("--headless");
+            if(HEADLESS){
+                options.addArguments("--headless");
+            }
             options.addArguments("--remote-allow-origins=*");
             options.addArguments("--disable-notifications");
             options.addArguments("--disable-infobars");
@@ -263,20 +266,20 @@ public class BaseTest  {
                 if (statusCode == 200) {
                     System.out.println(currentCount + ": " + url + ": " + "Link is valid(HTTP response code: " + statusCode + ")");
                     if(checkedImage200UrlS_EN.add(url)){
-                        writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                        writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     }
 
                 } else {
-                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Link is broken (HTTP response code: "
                             + statusCode + ")");
                 }
             } catch (Exception e) {
                 if (statusCode == 0) {
-                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), DE_xl);
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, "null", sourceUrl)), EN_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 } else {
-                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), DE_xl);
+                    writeDataToSheet_EN(sheetname, new ArrayList<Object>(Arrays.asList(url, statusCode, statusMessage, sourceUrl)), EN_xl);
                     System.err.println(currentCount + ": " + url + ": " + "Exception occurred: " + statusMessage);
                 }
             }

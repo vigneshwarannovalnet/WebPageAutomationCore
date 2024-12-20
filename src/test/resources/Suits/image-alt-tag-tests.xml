@@ -6,17 +6,41 @@
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
                 <methods>
-                    <include name="imageAltTagChecker_DE"/>
+                    <include name="brokenLink_en"/>
                 </methods>
             </class>
         </classes>
     </test>
+<<<<<<< HEAD:src/test/resources/Suits/image-alt-tag-tests.xml
     <test name="imageAltTagChecker_EN">
+=======
+     <test name="EN_HomePageTest">
+>>>>>>> 56dfe3a2f895475a1d913050bd239589cac822c3:src/test/resources/testng.xml
 
         <classes>
             <class name="com.nn.testcase.homepage.HomePageTest">
                 <methods>
-                    <include name="imageAltTagChecker_EN"/>
+                    <include name="brokenLink_de"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+   <test name="brokenImage_DE">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenImage_DE"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+   <test name="brokenImage_EN">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenImage_EN"/>
                 </methods>
             </class>
         </classes>

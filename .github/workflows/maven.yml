@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   schedule:
-    - cron: "30 0 * * *"  # 6:00 AM IST
+    - cron: "30 0 * * *" # 12:30 AM UTC -> 6:00 AM IST
   workflow_dispatch: # Allows manual trigger of the workflow
 
 jobs:
@@ -10,39 +10,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout the code
-    - uses: actions/checkout@v4
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    # Step 2: Set up JDK 11
-    - name: Set up JDK 11
-      uses: actions/setup-java@v4
-      with:
-        java-version: '11'
-        distribution: 'temurin' # Temurin is the recommended OpenJDK distribution
-        cache: maven # Cache Maven dependencies
+      # Step 2: Set up JDK 11
+      - name: Set up JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin' # Temurin is the recommended OpenJDK distribution
+          cache: maven # Cache Maven dependencies
 
-    # Step 3: Add permissions to files (optional for debugging file permissions)
-    - name: Set write permissions
-      run: chmod -R u+w src/test/resources/
+      # Step 3: Add permissions to files (optional for debugging file permissions)
+      - name: Set write permissions
+        run: chmod -R u+w src/test/resources/
 
-    # Step 4: Run the specific Maven test
-    - name: Run Specific Test
-      run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
+      # Step 4: Run the specific Maven test
+      - name: Run Specific Test
+        run: mvn clean test -DsuiteXmlFile=src/test/resources/testng.xml
 
-    # Step 5: Debug the DE and EN XLSX files to ensure they were written
-    - name: Debug the XLSX files
-      run: |
-        echo "Checking if the DE file exists and is not empty"
-        ls -lh src/test/resources/DE_HomePage.xlsx
-        echo "Checking if the EN file exists and is not empty"
-        ls -lh src/test/resources/EN_HomePage.xlsx
+      # Step 5: Debug the DE and EN XLSX files to ensure they were written
+      - name: Debug the XLSX files
+        run: |
+          echo "Checking if the DE file exists and is not empty"
+          ls -lh src/test/resources/DE_HomePage.xlsx
+          echo "Checking if the EN file exists and is not empty"
+          ls -lh src/test/resources/EN_HomePage.xlsx
 
-    # Step 6: Upload the generated XLSX files (if they exist)
-    - name: Upload XLSX files
-      if: always() # Ensure this step runs even if tests fail
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: |
-          src/test/resources/DE_HomePage.xlsx
-          src/test/resources/EN_HomePage.xlsx
+      # Step 6: Upload the generated XLSX files (if they exist)
+      - name: Upload XLSX files
+        if: always() # Ensure this step runs even if tests fail
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            src/test/resources/DE_HomePage.xlsx
+            src/test/resources/EN_HomePage.xlsx
