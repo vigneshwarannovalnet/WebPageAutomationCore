@@ -1,0 +1,46 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="HomePageTestSuite" parallel="tests" thread-count="4">
+   <test name="brokenLink_de">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenLink_de"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="brokenLink_en">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenLink_en"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="brokenImage_DE">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenImage_DE"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="brokenImage_EN">
+
+        <classes>
+            <class name="com.nn.testcase.homepage.HomePageTest">
+                <methods>
+                    <include name="brokenImage_EN"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+
+
