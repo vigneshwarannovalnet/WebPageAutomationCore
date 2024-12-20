@@ -69,6 +69,7 @@ public class BaseTest  {
             System.setProperty("webdriver.http.factory", "jdk-http-client");
             if(GITHUB){
                 System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+                System.out.println("Script run via github");
             }
             if(HEADLESS){
                 options.addArguments("--headless");
