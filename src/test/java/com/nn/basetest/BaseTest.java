@@ -569,7 +569,7 @@ public class BaseTest  {
 
     public void openURL(String url){
         getDriver().get(url);
-         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+         
         System.out.println("Open URL: " + url);
     }
 
