@@ -82,13 +82,14 @@ public class BaseTest  {
              options.addArguments("--no-proxy-server");
       options.addArguments("--disable-dev-shm-usage");
          options.addArguments("--disable-gpu");
+             options.setPageLoadStrategy(PageLoadStrategy.EAGER);
              System.setProperty("webdriver.chrome.verboseLogging", "true");
             driver.set(new ChromeDriver(options));
              
             // Set a page load timeout and script timeout
-         //driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
+         driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(120)); // Page load timeout
             //driver.get().manage().timeouts().implicitlyWait(Duration.ofSeconds(120));  // Implicit wait
-        // driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(120)); // Script timeout
+        driver.get().manage().timeouts().setScriptTimeout(Duration.ofSeconds(120)); // Script timeout
             wait.set(new WebDriverWait(driver.get(),Duration.ofSeconds(60)));
             assert driver != null : "Driver initialization failed!";
             driver.get().manage().window().maximize();
@@ -568,6 +569,7 @@ public class BaseTest  {
 
     public void openURL(String url){
         getDriver().get(url);
+         getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
         System.out.println("Open URL: " + url);
     }
 
