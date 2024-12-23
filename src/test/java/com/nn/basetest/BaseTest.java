@@ -82,7 +82,7 @@ public class BaseTest  {
              options.addArguments("--no-proxy-server");
       options.addArguments("--disable-dev-shm-usage");
          options.addArguments("--disable-gpu");
-             options.setPageLoadStrategy(PageLoadStrategy.EAGER);
+             //options.setPageLoadStrategy(PageLoadStrategy.EAGER);
              System.setProperty("webdriver.chrome.verboseLogging", "true");
             driver.set(new ChromeDriver(options));
              
