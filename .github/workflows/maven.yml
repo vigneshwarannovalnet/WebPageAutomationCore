@@ -47,3 +47,40 @@ jobs:
           path: |
             src/test/resources/DE_HomePage.xlsx
             src/test/resources/EN_HomePage.xlsx
+
+      # Step 7: Send test results email using SendGrid
+      - name: Send test results email
+        if: always()  # Ensure this step runs even if tests fail
+        run: |
+          curl -X POST https://api.sendgrid.com/v3/mail/send \
+            -H "Authorization: Bearer ${{ secrets.SENDGRID_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "personalizations": [
+                    {
+                      "to": [{"email": "mohamedn_m@novalnetsolutions.com"}],
+                      "subject": "GitHub Actions Test Results"
+                    }
+                  ],
+                  "from": {"email": "noreply@example.com"},
+                  "content": [
+                    {
+                      "type": "text/plain",
+                      "value": "The test results are available. Please check the attached files.\n\nTest Results:\n\nDE_HomePage.xlsx and EN_HomePage.xlsx"
+                    }
+                  ],
+                  "attachments": [
+                    {
+                      "content": "'$(base64 src/test/resources/DE_HomePage.xlsx)'",
+                      "filename": "DE_HomePage.xlsx",
+                      "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                      "disposition": "attachment"
+                    },
+                    {
+                      "content": "'$(base64 src/test/resources/EN_HomePage.xlsx)'",
+                      "filename": "EN_HomePage.xlsx",
+                      "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                      "disposition": "attachment"
+                    }
+                  ]
+                }'
