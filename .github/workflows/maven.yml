@@ -2,7 +2,7 @@ name: Java CI with Maven
 
 on:
   schedule:
-    - cron: "30 0 * * *" # 12:30 AM UTC -> 6:00 AM IST
+    - cron: "30 0 * * *"  # 12:30 AM UTC -> 6:00 AM IST
   workflow_dispatch: # Allows manual trigger of the workflow
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
 
       # Step 4: Run the specific Maven test
       - name: Maven Test
-        run: mvn clean test -DsuiteXmlFile=src/test/resources/Suits/Demo.xml -DGITHUB=true -DHEADLESS=true
+        run: mvn clean test -DsuiteXmlFile=src/test/resources/Suits/broken-link-and-image-tests.xml -DGITHUB=true -DHEADLESS=true
 
       # Step 5: Debug the DE and EN XLSX files to ensure they were written
       - name: Debug the XLSX files
@@ -38,20 +38,32 @@ jobs:
           echo "Checking if the EN file exists and is not empty"
           ls -lh src/test/resources/EN_HomePage.xlsx
 
-      # Step 6: Upload the generated XLSX files (if they exist)
-      - name: Upload XLSX files
-        if: always() # Ensure this step runs even if tests fail
+      # Step 6: Zip the generated XLSX files (DE_HomePage.xlsx and EN_HomePage.xlsx)
+      - name: Zip test results
+        run: |
+          zip test-results.zip src/test/resources/DE_HomePage.xlsx src/test/resources/EN_HomePage.xlsx
+
+      # Step 7: Upload the zip file as an artifact
+      - name: Upload test results zip
+        if: always()  # Ensure this step runs even if tests fail
         uses: actions/upload-artifact@v3
         with:
           name: test-results
-          path: |
-            src/test/resources/DE_HomePage.xlsx
-            src/test/resources/EN_HomePage.xlsx
+          path: test-results.zip
 
-      # Step 7: Send test results email using SendGrid
-      - name: Send test results email
-        if: always()  # Ensure this step runs even if tests fail
+  send_email:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download test results artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: test-results
+          path: ./test-results
+
+      - name: Send Email with Test Results
         run: |
+          # Prepare the email content with the zip file as an attachment
           curl -X POST https://api.sendgrid.com/v3/mail/send \
             -H "Authorization: Bearer ${{ secrets.SENDGRID_API_KEY }}" \
             -H "Content-Type: application/json" \
@@ -66,20 +78,14 @@ jobs:
                   "content": [
                     {
                       "type": "text/plain",
-                      "value": "The test results are available. Please check the attached files.\n\nTest Results:\n\nDE_HomePage.xlsx and EN_HomePage.xlsx"
+                      "value": "The test results are available. Please check the attached zip file.\n\nTest Results: test-results.zip"
                     }
                   ],
                   "attachments": [
                     {
-                      "content": "'$(base64 src/test/resources/DE_HomePage.xlsx)'",
-                      "filename": "DE_HomePage.xlsx",
-                      "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                      "disposition": "attachment"
-                    },
-                    {
-                      "content": "'$(base64 src/test/resources/EN_HomePage.xlsx)'",
-                      "filename": "EN_HomePage.xlsx",
-                      "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                      "content": "'"$(base64 ./test-results/test-results.zip)"'",
+                      "filename": "test-results.zip",
+                      "type": "application/zip",
                       "disposition": "attachment"
                     }
                   ]
