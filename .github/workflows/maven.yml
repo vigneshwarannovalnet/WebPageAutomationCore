@@ -28,7 +28,7 @@ jobs:
 
       # Step 4: Run the specific Maven test
       - name: Maven Test
-        run: mvn clean test -DsuiteXmlFile=src/test/resources/Suits/broken-link-and-image-tests.xml -DGITHUB=true -DHEADLESS=true
+        run: mvn clean test -DsuiteXmlFile=src/test/resources/Suits/Demo.xml -DGITHUB=true -DHEADLESS=true
 
       # Step 5: Debug the DE and EN XLSX files to ensure they were written
       - name: Debug the XLSX files
