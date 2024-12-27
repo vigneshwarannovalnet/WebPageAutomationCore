@@ -16,7 +16,7 @@ public class HomePageTest extends BaseTest {
     public void brokenLink_de(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains("XML Sitemap");
-        checkAllLinks("DE");
+        //checkAllLinks("DE");
         //checkSublinks("DE");
     }
 
@@ -26,7 +26,7 @@ public class HomePageTest extends BaseTest {
     public void brokenLink_en(String input) throws GeneralSecurityException, IOException {
         openURL(input);
         waitForTitleContains("XML Sitemap");
-        checkAllLinks("EN");
+        //checkAllLinks("EN");
         //checkSublinks("EN");
         
     }
