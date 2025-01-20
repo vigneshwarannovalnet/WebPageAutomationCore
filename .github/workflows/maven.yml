@@ -90,7 +90,7 @@ jobs:
             -d '{
                   "personalizations": [
                     {
-                      "to": [{"email": "mohamedn_m@novalnetsolutions.com"}],
+                      "to": [{"email": "vigneshwaran_m@novalnetsolutions.com"}],
                       "subject": "GitHub Actions Test Results"
                     }
                   ],
